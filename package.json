@@ -1,0 +1,18 @@
+{
+  "name": "mobile-goalhwy",
+  "version": "0.0.0",
+  "description": "Mobile Goalhighway",
+  "author": null,
+  "private": true,
+  "main": "main.js",
+  "dependencies": {
+    "@exponent/vector-icons": "~4.0.0",
+    "exponent": "^13.1.0",
+    "react": "~15.4.0",
+    "react-native": "https://github.com/exponent/react-native/archive/sdk-13.0.3.tar.gz",
+    "react-native-autocomplete-input": "^3.0.0",
+    "react-native-check-box": "^1.0.4",
+    "react-native-router-flux": "^3.37.0",
+    "react-native-simple-radio-button": "^2.4.2"
+  }
+}
