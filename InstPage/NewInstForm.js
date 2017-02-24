@@ -199,11 +199,14 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     color: '#004E89',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingTop: 2.5,
+    paddingBottom: 5
   },
   textInput: {
     fontSize: 16,
-    minHeight: 30
+    minHeight: 25,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,

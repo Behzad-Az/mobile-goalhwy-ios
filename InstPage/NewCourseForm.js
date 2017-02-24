@@ -179,9 +179,12 @@ const styles = StyleSheet.create({
     color: '#004E89',
     fontWeight: 'bold',
     paddingTop: 2.5,
-    paddingRight: 5,
-    paddingLeft: 5,
     paddingBottom: 5
+  },
+  textInput: {
+    fontSize: 16,
+    minHeight: 25,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
@@ -201,25 +204,9 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center'
   },
-  textInput: {
-    paddingRight: 5,
-    paddingLeft: 5,
-    height: 25
-  },
   textBtn: {
     padding: 5,
     textAlign: 'center',
     color: '#004E89'
-  },
-  selectContainer: {
-    marginBottom: 10,
-    borderWidth: .5,
-    borderRadius: 5,
-    paddingLeft: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingRight: 5,
-    borderColor: '#aaa',
-    alignItems: 'center'
   }
 });

@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     borderWidth: .5,
     borderColor: '#aaa',
     borderRadius: 5,
-    minHeight: 25,
+    minHeight: 30,
     fontSize: 16
   },
   primaryBtnContainer: {

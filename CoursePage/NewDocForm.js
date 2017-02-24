@@ -13,6 +13,8 @@ import {
 import { ImagePicker } from 'exponent';
 import { FontAwesome } from '@exponent/vector-icons';
 
+import FormNavBar from '../Navbar/FormNavBar.js';
+
 class NewDocForm extends Component {
   constructor(props) {
     super(props);
@@ -80,71 +82,84 @@ class NewDocForm extends Component {
           onRequestClose={() => {alert("Modal has been closed.")}}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>New Document Form:</Text>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Document Title:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={title => this.setState({title})}
-                value={this.state.title}
-                placeholder="Example: Lab 1 - Electromagnetism"
-                underlineColorAndroid="#004E89"
-              />
-            </View>
+            <FormNavBar formTitle="New Document Form:" backFcn={this.setModalVisible} />
 
-            <View style={styles.inputCotainer}>
-              <Text style={[styles.inputLabel, {marginBottom: 5}]}>Upload the Document:</Text>
+            <View style={styles.bodyContainer}>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Document Title:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={title => this.setState({title})}
+                  value={this.state.title}
+                  placeholder="Example: Lab 1 - Electromagnetism"
+                  underlineColorAndroid="#004E89"
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={[styles.inputLabel, {marginBottom: 5}]}>Upload the Document:</Text>
+                <View style={styles.dividedRow}>
+
+                  <View style={{flex: 1, alignItems: 'center'}}>
+                    <View style={styles.uploadBtnContainer}>
+                      <FontAwesome name="files-o" size={40} style={styles.uploadBtn} />
+                      <Text style={styles.uploadBtn} onPress={this.selectPhotoTapped}>
+                        From Files
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={{flex: 1, alignItems: 'center'}}>
+                    <View style={styles.uploadBtnContainer}>
+                      <FontAwesome name="camera" size={40} style={styles.uploadBtn} />
+                      <Text style={styles.uploadBtn} onPress={this.selectPhotoTapped}>
+                        From Camera
+                      </Text>
+                    </View>
+                  </View>
+
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Revision Comment:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={rev_desc => this.setState({rev_desc})}
+                  value={this.state.rev_desc}
+                  placeholder="Example: New Upload"
+                  underlineColorAndroid="#004E89"
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Document Type:</Text>
+                <Picker
+                  selectedValue={this.state.type}
+                  onValueChange={type => this.setState({type})}
+                  itemStyle={{fontSize: 16}}>
+                  <Picker.Item label="-" value="" />
+                  <Picker.Item label="Assignment / Report" value="asg_report" />
+                  <Picker.Item label="Lecture Note" value="lecture_note" />
+                  <Picker.Item label="Sample Question" value="sample_question" />
+                </Picker>
+              </View>
+
               <View style={styles.dividedRow}>
-                <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text style={styles.uploadBtn}>
-                    <FontAwesome name="files-o" size={40} color="black" />
-                    From Files
+                <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                    Submit
                   </Text>
                 </View>
-                <View style={{flex: 1, alignItems: 'center'}}>
-                  <Text style={styles.uploadBtn} onPress={this.selectPhotoTapped}>
-                    <FontAwesome name="camera" size={40} color="black" />
-                    From Camera
+                <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                    Cancel
                   </Text>
                 </View>
               </View>
-            </View>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Revision Comment:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={rev_desc => this.setState({rev_desc})}
-                value={this.state.rev_desc}
-                placeholder="Example: New Upload"
-                underlineColorAndroid="#004E89"
-              />
-            </View>
-
-            <View style={styles.selectContainer}>
-              <Picker
-                selectedValue={this.state.type}
-                onValueChange={type => this.setState({type})}
-                style={{color: '#004E89'}}>
-                <Picker.Item label="Document Type:" value="" />
-                <Picker.Item label="Assignment / Report" value="asg_report" />
-                <Picker.Item label="Lecture Note" value="lecture_note" />
-                <Picker.Item label="Sample Question" value="sample_question" />
-              </Picker>
-            </View>
-
-            <View style={[styles.dividedRow, {marginTop: 10}]}>
-              <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginRight: 5}]}>
-                  Submit
-                </Text>
-              </View>
-              <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginLeft: 5}]}>
-                  Go Back
-                </Text>
-              </View>
             </View>
 
           </ScrollView>
@@ -165,38 +180,46 @@ export default NewDocForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25
+  },
+  bodyContainer: {
     padding: 10
   },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
-  },
-  inputCotainer: {
-    marginTop: 10,
+  inputContainer: {
+    marginBottom: 10,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#aaa'
   },
-  selectContainer: {
-    borderWidth: .5,
-    borderRadius: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
-    marginTop: 10,
-    borderColor: '#aaa'
-  },
   inputLabel: {
     color: '#004E89',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingTop: 2.5,
+    paddingBottom: 5
+  },
+  textInput: {
+    fontSize: 16,
+    minHeight: 25,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 10
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
+  primaryBtn: {
+    color: 'white',
+    textAlign: 'center'
   },
   headerBtnContainer: {
     padding: 5,
@@ -210,27 +233,17 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: 'white'
   },
-  uploadBtn: {
-    maxWidth: 80,
+  uploadBtnContainer: {
+    width: 110,
     maxHeight: 80,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#bbb',
-    textAlign: 'center',
     backgroundColor: '#eee'
   },
-  textInput: {
-    height: 40,
-    paddingRight: 5,
-    paddingLeft: 5
-  },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
+  uploadBtn: {
     textAlign: 'center',
-    marginBottom: 10
+    paddingTop: 5
   }
 });
