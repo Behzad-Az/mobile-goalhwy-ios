@@ -2,7 +2,8 @@ import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
-  Text
+  Text,
+  View
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -14,9 +15,11 @@ class IndexRow extends React.Component {
 
   render() {
     return (
-      <Text style={styles.courseTitle} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
-        {this.props.course.prefix} {this.props.course.suffix}
-      </Text>
+      <View style={styles.container}>
+        <Text style={styles.courseTitle} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
+          {this.props.course.prefix} {this.props.course.suffix}
+        </Text>
+      </View>
     );
   }
 }
@@ -24,13 +27,13 @@ class IndexRow extends React.Component {
 export default IndexRow;
 
 const styles = StyleSheet.create({
-  courseTitle: {
+  container: {
     padding: 5,
-    fontWeight: 'bold',
     backgroundColor: 'white',
     borderBottomWidth: .5,
     borderColor: '#004E89'
-    // borderLeftWidth: .5,
-    // borderRightWidth: .5
+  },
+  courseTitle: {
+    fontWeight: 'bold'
   }
 });
