@@ -16,12 +16,16 @@ class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      username: 'ben',
+      password: 'ben123',
       pageMsg: ''
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.setMessage = this.setMessage.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleLogin();
   }
 
   handleLogin() {
@@ -108,6 +112,7 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     borderWidth: 2,
     borderColor: '#bbb',
+    height: 38,
     borderRadius: 7
   },
   fontAwesomeStyle: {
@@ -115,7 +120,8 @@ const styles = StyleSheet.create({
     left: 8,
     top: 8,
     fontSize: 22,
-    color: '#bbb'
+    color: '#bbb',
+    backgroundColor: 'white'
   },
   textStyle: {
     padding: 5,

@@ -122,7 +122,7 @@ class InstPage extends React.Component {
           <ActivityIndicator
             animating={true}
             style={{height: 80}}
-            size={60}
+            size="large"
             color="#004E89"
           />
         </View>
@@ -159,7 +159,8 @@ const styles = StyleSheet.create({
     borderWidth: .5,
     borderColor: '#999',
     borderRadius: 5,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    height: 25
   },
   componentContainer: {
     marginBottom: 10,
@@ -170,6 +171,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     position: 'absolute',
     right: 5,
+    backgroundColor: '#004E89',
     top: 5
   },
   headerBtn: {

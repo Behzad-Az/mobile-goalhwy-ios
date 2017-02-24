@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight
+  TouchableHighlight,
+  Dimensions
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -101,8 +102,11 @@ class SearhBar extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.backBtnContainer}>
+          <Text style={styles.backBtnText}>Back</Text>
+        </View>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, {width: Dimensions.get('window').width - 70}]}
           onChangeText={query => this.handleSearch(query)}
           value={this.state.query}
           placeholder="search courses, documents and employers here"
@@ -119,9 +123,11 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 29,
+    paddingTop: 10,
     paddingBottom: 5,
-    backgroundColor: '#004E89'
+    backgroundColor: '#004E89',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   textInput: {
     height: 25,
@@ -130,6 +136,22 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     borderRadius: 5,
     fontSize: 13
+  },
+  backBtnContainer: {
+    width: 43,
+    height: 25,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'white',
+    marginRight: 5,
+    backgroundColor: 'white'
+  },
+  backBtnText: {
+    color: '#004E89',
+    fontSize: 13,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingTop: 3
   },
   searchRowContainer: {
     flexDirection: 'row',

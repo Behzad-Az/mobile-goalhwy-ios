@@ -1,7 +1,7 @@
 {
-  "name": "mobile-goalhwy",
+  "name": "mobile-goalhwy-ios",
   "version": "0.0.0",
-  "description": "Mobile Goalhighway",
+  "description": "Mobile Goalhighway ios",
   "author": null,
   "private": true,
   "main": "main.js",

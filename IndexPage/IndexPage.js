@@ -77,7 +77,7 @@ class IndexPage extends React.Component {
           <ActivityIndicator
             animating={true}
             style={{height: 80}}
-            size={60}
+            size="large"
             color="#004E89"
           />
         </View>

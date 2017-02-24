@@ -69,26 +69,42 @@ class Navbar extends React.Component {
     } else {
       return (
         <View style={styles.dividedRow}>
-          <FontAwesome
-            name="feed"
-            style={[styles.navItem, {borderBottomWidth: this.props.title === 'FeedPage' ? 3 : 0 }]}
-            onPress={() => Actions.FeedPage({ userId: this.state.userInfo.id })} />
-          <FontAwesome
-            name="book"
-            style={[styles.navItem, {borderBottomWidth: this.props.title === 'IndexPage' ? 3 : 0 }]}
-            onPress={() => Actions.IndexPage()} />
-          <FontAwesome
-            name="graduation-cap"
-            style={[styles.navItem, {borderBottomWidth: this.props.title === 'InstPage' ? 3 : 0 }]}
-            onPress={() => Actions.InstPage({ instId: this.state.userInfo.inst_id })} />
-          <FontAwesome
-            name="briefcase"
-            style={[styles.navItem, {borderBottomWidth: this.props.title === 'CareerPage' ? 3 : 0 }]}
-            onPress={() => Actions.CareerPage()} />
-          <FontAwesome
-            name="user-circle-o"
-            style={[styles.navItem, {borderBottomWidth: this.props.title === 'UserProfilePage' ? 3 : 0 }]}
-            onPress={() => Actions.UserProfilePage({ userId: this.state.userInfo.id })} />
+
+          <View style={[styles.navItemContainer, {borderBottomWidth: this.props.title === 'FeedPage' ? 3 : 0 }]}>
+            <FontAwesome
+              name="feed"
+              style={styles.navItem}
+              onPress={() => Actions.FeedPage({ userId: this.state.userInfo.id })} />
+          </View>
+
+          <View style={[styles.navItemContainer, {borderBottomWidth: this.props.title === 'IndexPage' ? 3 : 0 }]}>
+            <FontAwesome
+              name="book"
+              style={styles.navItem}
+              onPress={() => Actions.IndexPage()} />
+          </View>
+
+          <View style={[styles.navItemContainer, {borderBottomWidth: this.props.title === 'InstPage' ? 3 : 0 }]}>
+            <FontAwesome
+              name="graduation-cap"
+              style={styles.navItem}
+              onPress={() => Actions.InstPage({ instId: this.state.userInfo.inst_id })} />
+          </View>
+
+          <View style={[styles.navItemContainer, {borderBottomWidth: this.props.title === 'CareerPage' ? 3 : 0 }]}>
+            <FontAwesome
+              name="briefcase"
+              style={styles.navItem}
+              onPress={() => Actions.CareerPage()} />
+          </View>
+
+          <View style={[styles.navItemContainer, {borderBottomWidth: this.props.title === 'UserProfilePage' ? 3 : 0 }]}>
+            <FontAwesome
+              name="user-circle-o"
+              style={styles.navItem}
+              onPress={() => Actions.UserProfilePage({ userId: this.state.userInfo.id })} />
+          </View>
+
         </View>
       );
     }
@@ -97,6 +113,7 @@ class Navbar extends React.Component {
   render() {
     return (
       <View style={[styles.container, { height: 89 + this.state.searchResults.length * 28, width: Dimensions.get('window').width }]}>
+        <View style={{height: 19, backgroundColor: '#ddd'}}></View>
         <SearchBar handleSearch={this.handleSearch} />
         { this.renderPageAfterData() }
         <View style={[styles.resultContainer, {borderWidth: this.state.searchResults[0] ? .5 : 0, width: Dimensions.get('window').width - 20}]}>
@@ -111,21 +128,22 @@ export default Navbar;
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: 'white',
     position: 'absolute',
     top: 0,
     minHeight: 65
   },
-  navItem: {
+  navItemContainer: {
     borderColor: 'white',
     padding: 5,
-    color: 'white',
-    fontWeight: 'bold',
     backgroundColor: '#004E89',
-    textAlign: 'center',
-    fontSize: 19,
     flex: 1,
     height: 30
+  },
+  navItem: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 19,
   },
   dividedRow: {
     flex: 1,
