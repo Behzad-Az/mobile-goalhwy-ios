@@ -70,29 +70,40 @@ class TopRow extends React.Component {
     return (
       <View style={[styles.dividedRow, {maxHeight: 50}]}>
 
-        <View style={{flex: 1}}><NewDocForm /></View>
-
-        <TouchableHighlight style={{flex: 1}} onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
-          <Text style={styles.primaryBtn}>
-            <FontAwesome name="star" size={19} color="white" />
-          </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={{flex: 1}} onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
-          <Text style={styles.primaryBtn}>
-            <FontAwesome name="check-circle" size={19} color={this.state.subscriptionStatus ? "green" : "white"} />
-          </Text>
-        </TouchableHighlight>
-
         <View style={{flex: 1}}>
-          <NewAssistForm courseInfo={this.props.courseInfo} subscriptionStatus={this.state.subscriptionStatus} />
+          <NewDocForm />
         </View>
 
-        <TouchableHighlight style={{flex: 1}} onPress={this.handleTutorStatus} disabled={!this.state.subscriptionStatus}>
-          <Text style={[styles.primaryBtn, {backgroundColor: this.state.subscriptionStatus ? "#004E89" : "#bbb"}]}>
-            <FontAwesome name="slideshare" size={19} color={this.state.tutor_status ? "green" : "white"} />
-          </Text>
-        </TouchableHighlight>
+        <View style={{flex: 1}}>
+          <TouchableHighlight
+            style={styles.headerBtnContainer}
+            onPress={() => Actions.CourseReviewPage({ courseId: this.props.courseInfo.id })}>
+            <FontAwesome name="star" style={styles.headerBtn} />
+          </TouchableHighlight>
+        </View>
+
+        <View style={{flex: 1}}>
+          <TouchableHighlight
+            style={styles.headerBtnContainer}
+            onPress={this.state.subscriptionStatus ? this.handleUnsubscribe : this.handleSubscribe}>
+            <FontAwesome name="check-circle" style={[styles.headerBtn, {color: this.state.subscriptionStatus ? "green" : "white"}]} />
+          </TouchableHighlight>
+        </View>
+
+        <View style={{flex: 1}}>
+          <NewAssistForm
+            courseInfo={this.props.courseInfo}
+            subscriptionStatus={this.state.subscriptionStatus} />
+        </View>
+
+        <View style={{flex: 1}}>
+          <TouchableHighlight
+            style={[styles.headerBtnContainer, {backgroundColor: this.state.subscriptionStatus ? "#004E89" : "#bbb"}]}
+            onPress={this.handleTutorStatus}
+            disabled={!this.state.subscriptionStatus}>
+            <FontAwesome name="slideshare" style={[styles.headerBtn, {color: this.state.tutor_status ? "green" : "white"}]} />
+          </TouchableHighlight>
+        </View>
 
       </View>
     );
@@ -108,13 +119,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10
   },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
+  headerBtnContainer: {
     padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
     marginRight: 5,
-    marginLeft: 5
+    marginLeft: 5,
+    borderRadius: 5,
+    backgroundColor: '#004E89'
+  },
+  headerBtn: {
+    textAlign: 'center',
+    fontSize: 19,
+    color: 'white'
   }
 });

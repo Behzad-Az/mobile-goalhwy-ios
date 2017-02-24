@@ -6,7 +6,8 @@ import {
   View,
   ScrollView,
   TextInput,
-  Picker
+  Picker,
+  TouchableHighlight
 } from 'react-native';
 
 import { ImagePicker } from 'exponent';
@@ -148,9 +149,14 @@ class NewDocForm extends Component {
 
           </ScrollView>
         </Modal>
-        <Text style={styles.headerBtn} onPress={() => this.setModalVisible(true)}>
-          <FontAwesome name="upload" size={19} color="white" />
-        </Text>
+
+        <TouchableHighlight
+          onPress={() => this.setModalVisible(true)}
+          style={styles.headerBtnContainer}>
+          <FontAwesome name="upload" style={styles.headerBtn} />
+        </TouchableHighlight>
+
+
       </View>
     );
   }
@@ -193,14 +199,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  headerBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
+  headerBtnContainer: {
     padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
     marginRight: 5,
-    marginLeft: 5
+    marginLeft: 5,
+    borderRadius: 5,
+    backgroundColor: '#004E89'
+  },
+  headerBtn: {
+    textAlign: 'center',
+    fontSize: 19,
+    color: 'white'
   },
   uploadBtn: {
     maxWidth: 80,

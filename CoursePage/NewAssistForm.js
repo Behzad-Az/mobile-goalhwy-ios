@@ -161,11 +161,14 @@ class NewAssistForm extends Component {
 
           </ScrollView>
         </Modal>
-        <TouchableHighlight onPress={() => this.setModalVisible(true)} disabled={!this.props.subscriptionStatus}>
-          <Text style={[styles.headerBtn, {backgroundColor: this.props.subscriptionStatus ? "#004E89" : "#bbb"}]}>
-            <FontAwesome name="bell" size={19} color={this.state.assistReqOpen ? "green" : "white"} />
-          </Text>
+
+        <TouchableHighlight
+          onPress={() => this.setModalVisible(true)}
+          disabled={!this.props.subscriptionStatus}
+          style={[styles.headerBtnContainer, {backgroundColor: this.props.subscriptionStatus ? "#004E89" : "#bbb"}]}>
+          <FontAwesome name="bell" style={[styles.headerBtn, {color: this.state.assistReqOpen ? "green" : "white"}]} />
         </TouchableHighlight>
+
       </View>
     );
   }
@@ -208,14 +211,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  headerBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
+  headerBtnContainer: {
     padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
     marginRight: 5,
-    marginLeft: 5
+    marginLeft: 5,
+    borderRadius: 5
+  },
+  headerBtn: {
+    textAlign: 'center',
+    fontSize: 19
   },
   uploadBtn: {
     maxWidth: 80,
