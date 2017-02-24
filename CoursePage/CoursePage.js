@@ -84,31 +84,45 @@ class CoursePage extends React.Component {
     let docCount = this.state.asgReports.length;
     let lastUpdate = docCount ? this.state.asgReports[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showAsgReports ?
-      this.state.asgReports.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
-      <Text style={styles.summaryInfo}>{docCount} document(s)... last update on {lastUpdate}</Text>
+      this.state.asgReports.map((doc, index) =>
+        <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
+        <View style={styles.summaryInfo}>
+          <Text>{docCount} document(s)... last update on {lastUpdate}</Text>
+        </View>
   }
 
   renderSampleQuestions() {
     let docCount = this.state.sampleQuestions.length;
     let lastUpdate = docCount ? this.state.sampleQuestions[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showSampleQuestions ?
-      this.state.sampleQuestions.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />):
-      <Text style={styles.summaryInfo}>{docCount} document(s)... last update on {lastUpdate}</Text>
+      this.state.sampleQuestions.map((doc, index) =>
+        <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
+        <View style={styles.summaryInfo}>
+          <Text>{docCount} document(s)... last update on {lastUpdate}</Text>
+        </View>
   }
 
   renderLectureNotes() {
     let docCount = this.state.lectureNotes.length;
     let lastUpdate = docCount ? this.state.lectureNotes[0].revisions[0].rev_created_at.slice(0, 10) : '';
     return this.state.showLectureNotes ?
-      this.state.lectureNotes.map((doc, index) => <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
-      <Text style={styles.summaryInfo}>{docCount} document(s)... last update on {lastUpdate}</Text>
+      this.state.lectureNotes.map((doc, index) =>
+        <DocRow key={index} doc={doc} courseId={this.state.courseInfo.id} />) :
+        <View style={styles.summaryInfo}>
+          <Text>{docCount} document(s)... last update on {lastUpdate}</Text>
+        </View>
   }
 
   renderItemsForSale() {
     let itemCount = this.state.itemsForSale.length;
     return this.state.showItemsForSale ?
-      this.state.itemsForSale.map((item, index) => <Text key={index} style={styles.summaryInfo}>{item.title}</Text>) :
-      <Text style={styles.summaryInfo}>{itemCount} item(s) for sale...</Text>
+      this.state.itemsForSale.map((item, index) =>
+        <View key={index} style={styles.summaryInfo}>
+          <Text>{item.title}</Text>
+        </View>) :
+        <View style={styles.summaryInfo}>
+          <Text>{itemCount} item(s) for sale...</Text>
+        </View>
   }
 
   toggleDocView(stateBool) {
@@ -235,6 +249,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     position: 'absolute',
     top: 5,
-    right: 12
+    right: 12,
+    backgroundColor: '#004E89'
   }
 });

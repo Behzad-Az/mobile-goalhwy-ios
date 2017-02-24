@@ -63,18 +63,12 @@ class ChangeInstForm extends Component {
                 </Text>
               )}
 
-              <View style={styles.dividedRow}>
-                <View style={{flex: 1}}>
-                  <Text style={[styles.primaryBtn, {marginRight: 5}]}>
-                    Select
-                  </Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                    Go Back
-                  </Text>
-                </View>
+              <View style={styles.primaryBtnContainer}>
+                <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                  Cancel
+                </Text>
               </View>
+
             </View>
 
           </ScrollView>
@@ -96,19 +90,6 @@ const styles = StyleSheet.create({
   bodyContainer: {
     padding: 10
   },
-  dividedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10
-  },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center'
-  },
   instRowText: {
     marginBottom: 5,
     backgroundColor: '#eee',
@@ -124,7 +105,18 @@ const styles = StyleSheet.create({
     borderWidth: .5,
     borderColor: '#aaa',
     borderRadius: 5,
-    height: 25,
+    minHeight: 25,
     fontSize: 16
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
+  primaryBtn: {
+    color: 'white',
+    textAlign: 'center'
   }
 });

@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderColor: '#999',
     borderRadius: 5,
     backgroundColor: 'white',
-    height: 30,
+    minHeight: 30,
     fontSize: 16
   },
   componentContainer: {

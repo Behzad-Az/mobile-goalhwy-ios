@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text
+  Text,
+  View
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -13,11 +14,12 @@ class DocRow extends React.Component {
 
   render() {
     return (
-      <Text
-        style={styles.docTypeHeader}
-        onPress={() => Actions.DocPage({ docId: this.props.doc.id, courseId: this.props.courseId })}>
-        {this.props.doc.title}
-      </Text>
+      <View style={styles.container}>
+        <Text
+          onPress={() => Actions.DocPage({ docId: this.props.doc.id, courseId: this.props.courseId })}>
+          {this.props.doc.title}
+        </Text>
+      </View>
     );
   }
 }
@@ -25,7 +27,7 @@ class DocRow extends React.Component {
 export default DocRow;
 
 const styles = StyleSheet.create({
-  docTypeHeader: {
+  container: {
     padding: 5,
     backgroundColor: 'white',
     borderBottomWidth: .5,

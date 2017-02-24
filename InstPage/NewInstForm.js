@@ -62,7 +62,8 @@ class ChangeInstForm extends Component {
     return this.state.country ?
       <PickerIOS
         selectedValue={this.state.province}
-        onValueChange={province => this.setState({ province })}>
+        onValueChange={province => this.setState({ province })}
+        itemStyle={{fontSize: 16}}>
         { this.provinceList[this.state.country].map((province, index) =>
           <PickerItem
             key={index}
@@ -70,7 +71,7 @@ class ChangeInstForm extends Component {
             label={province.label}
           />)}
       </PickerIOS> :
-      <Text style={{paddingLeft: 5}}>Select country first.</Text>
+      <Text style={{paddingTop: 5, paddingBottom: 5}}>Select country first.</Text>
   }
 
   handleNewInstPost() {
@@ -134,7 +135,7 @@ class ChangeInstForm extends Component {
                 <Text style={styles.inputLabel}>Select Country:</Text>
                 <PickerIOS
                   selectedValue={this.state.country}
-                  itemStyle={{textAlign: 'left', paddingLeft: 5, paddingRight: 5}}
+                  itemStyle={{fontSize: 16}}
                   onValueChange={country => this.setState({ country })}>
                   { this.countryList.map((country, index) =>
                     <PickerItem
@@ -193,11 +194,11 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     color: '#004E89',
-    fontWeight: 'bold',
-    paddingTop: 2.5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 5
+    fontWeight: 'bold'
+  },
+  textInput: {
+    fontSize: 16,
+    minHeight: 30
   },
   dividedRow: {
     flex: 1,
@@ -216,10 +217,5 @@ const styles = StyleSheet.create({
   primaryBtn: {
     color: 'white',
     textAlign: 'center'
-  },
-  textInput: {
-    paddingRight: 5,
-    paddingLeft: 5,
-    height: 25
   }
 });

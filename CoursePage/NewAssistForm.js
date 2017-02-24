@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import FormNavBar from '../Navbar/FormNavBar.js';
 
 class NewAssistForm extends Component {
   constructor(props) {
@@ -47,43 +48,46 @@ class NewAssistForm extends Component {
     if (this.state.assistReqOpen) {
       return (
         <View>
-          <View style={styles.selectContainer}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Select outcome to close the issue?</Text>
             <Picker
               selectedValue={this.state.closureReason}
               onValueChange={closureReason => this.setState({closureReason})}
-              style={{color: '#004E89'}}>
-              <Picker.Item label="Close the issue?" value="" />
+              itemStyle={{fontSize: 16}}>
+              <Picker.Item label="-" value="" />
               <Picker.Item label="Resolved on my own" value="Resolved on my own" />
               <Picker.Item label="Resolved with tutor" value="Resolved with tutor" />
               <Picker.Item label="No longer needed" value="No longer needed" />
               <Picker.Item label="Other" value="Other" />
             </Picker>
           </View>
-          <View style={[styles.dividedRow, {marginTop: 10}]}>
-            <View style={{flex: 1}}>
-              <Text onPress={this.handleUpdateRequestAssist} style={[styles.primaryBtn, {marginRight: 5}]}>
+
+          <View style={styles.dividedRow}>
+            <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+              <Text style={styles.primaryBtn} onPress={this.handleNewRequestAssist}>
                 Update
               </Text>
             </View>
-            <View style={{flex: 1}}>
-              <Text onPress={() => this.setModalVisible(!this.state.modalVisible)} style={[styles.primaryBtn, {marginLeft: 5}]}>
-                Go Back
+            <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+              <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                Cancel
               </Text>
             </View>
           </View>
+
         </View>
       );
     } else {
       return (
-        <View style={[styles.dividedRow, {marginTop: 10}]}>
-          <View style={{flex: 1}}>
-            <Text onPress={this.handleNewRequestAssist} style={[styles.primaryBtn, {marginRight: 5}]}>
+        <View style={styles.dividedRow}>
+          <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+            <Text style={styles.primaryBtn} onPress={this.handleNewRequestAssist}>
               Submit
             </Text>
           </View>
-          <View style={{flex: 1}}>
-            <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginLeft: 5}]}>
-              Go Back
+          <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+            <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+              Cancel
             </Text>
           </View>
         </View>
@@ -141,23 +145,26 @@ class NewAssistForm extends Component {
           onRequestClose={() => {alert("Modal has been closed.")}}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>Request Assistance:</Text>
 
-            <View style={[styles.inputCotainer, {minHeight: 200}]}>
-              <TextInput
-                style={[styles.textInput, {height: this.state.height}]}
-                multiline
-                onChangeText={issue_desc => this.setState({issue_desc})}
-                value={this.state.issue_desc}
-                placeholder="How may one of our tutors assist you?"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                onContentSizeChange={(event) => {
-                  this.setState({height: event.nativeEvent.contentSize.height});
-                }}
-              />
+            <FormNavBar formTitle="Request Assistance:" backFcn={this.setModalVisible} />
+
+            <View style={styles.bodyContainer}>
+              <View style={[styles.inputContainer, {minHeight: 200}]}>
+                <Text style={styles.inputLabel}>Describe your question / issue?</Text>
+                <TextInput
+                  style={[styles.textInput, {height: this.state.height}]}
+                  multiline
+                  onChangeText={issue_desc => this.setState({issue_desc})}
+                  value={this.state.issue_desc}
+                  placeholder="How may one of our tutors assist you?"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                  onContentSizeChange={(event) => {
+                    this.setState({height: event.nativeEvent.contentSize.height});
+                  }}
+                />
+              </View>
+              { this.formFooterOptions() }
             </View>
-
-            { this.formFooterOptions() }
 
           </ScrollView>
         </Modal>
@@ -178,6 +185,9 @@ export default NewAssistForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25,
+  },
+  bodyContainer: {
     padding: 10
   },
   modalHeader: {
@@ -187,24 +197,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  inputCotainer: {
-    marginTop: 10,
+  inputContainer: {
+    marginBottom: 10,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#aaa'
-  },
-  selectContainer: {
-    borderWidth: .5,
-    borderRadius: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
-    marginTop: 10,
-    borderColor: '#aaa'
-  },
-  inputLabel: {
-    color: '#004E89',
-    fontWeight: 'bold'
   },
   dividedRow: {
     flex: 1,
@@ -221,26 +219,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 19
   },
-  uploadBtn: {
-    maxWidth: 80,
-    maxHeight: 80,
-    padding: 5,
-    borderWidth: .5,
-    borderRadius: 5,
-    borderColor: '#bbb',
-    textAlign: 'center',
-    backgroundColor: '#eee'
+  inputLabel: {
+    color: '#004E89',
+    fontWeight: 'bold'
   },
   textInput: {
-    paddingRight: 5,
-    paddingLeft: 5
+    fontSize: 16
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
   },
   primaryBtn: {
     color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
-    marginBottom: 10
+    textAlign: 'center'
   }
 });
