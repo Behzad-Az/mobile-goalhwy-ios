@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
   backBtnText: {
     color: '#004E89',
     fontSize: 13,
-    fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 3
   },

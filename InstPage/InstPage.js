@@ -154,13 +154,14 @@ const styles = StyleSheet.create({
     margin: 5,
     paddingRight: 5,
     paddingLeft: 5,
-    paddingTop: 2,
-    paddingBottom: 2,
+    paddingTop: 4,
+    paddingBottom: 4,
     borderWidth: .5,
     borderColor: '#999',
     borderRadius: 5,
     backgroundColor: 'white',
-    height: 25
+    height: 25,
+    fontSize: 16
   },
   componentContainer: {
     marginBottom: 10,

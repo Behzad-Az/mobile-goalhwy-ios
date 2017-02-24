@@ -47,6 +47,11 @@ class ChangeInstForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
+
+            <View style={styles.backBtnContainer}>
+              <Text style={styles.backBtnText}>Back</Text>
+            </View>
+
             <Text style={styles.modalHeader}>Select Institution:</Text>
             <TextInput
               style={styles.searchInput}
@@ -123,6 +128,21 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     borderWidth: .5,
     borderColor: '#aaa',
-    borderRadius: 5
+    borderRadius: 5,
+    height: 25,
+    fontSize: 16
+  },
+  backBtnContainer: {
+    width: 50,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#004E89',
+    padding: 5,
+    backgroundColor: '#004E89',
+    marginBottom: 10
+  },
+  backBtnText: {
+    color: 'white',
+    textAlign: 'center'
   }
 });

@@ -185,7 +185,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     paddingRight: 5,
-    paddingLeft: 5
+    paddingLeft: 5,
+    height: 25
   },
   textBtn: {
     padding: 5,
