@@ -3,10 +3,10 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity
+  View
 } from 'react-native';
 
+import { FontAwesome } from '@exponent/vector-icons';
 import FlagModal from '../Partials/ModalSelect.js';
 
 class RevisionRow extends React.Component {
@@ -42,23 +42,17 @@ class RevisionRow extends React.Component {
     return (
       <View style={styles.container}>
 
-        <View style={styles.dividedRow}>
-          <TouchableOpacity style={{ flex: 4 }}>
-            <Text style={[{backgroundColor: '#004E89'}, styles.lowerBtn]}>Download</Text>
-          </TouchableOpacity>
-          <View style={{ flex: 1 }}>
-            <FlagModal
+        <Text style={styles.revTitle}>{this.props.rev.title}</Text>
+        <Text style={styles.revDesc}>"{this.props.rev.rev_desc}"</Text>
+
+        <View style={styles.btnRow}>
+          <FontAwesome name="download" style={[styles.actionBtn, {fontSize: 30}]} />
+          <FlagModal
               options={this.flagOptions}
               handleSelect={this.handleFlagSelect}
               btnContent={{ type: 'icon', name: 'flag'}}
-              style={styles.flagBtn}
+              style={[styles.actionBtn, {fontSize: 13, paddingBottom: 5}]}
             />
-          </View>
-        </View>
-
-        <View style={{marginBottom: 35}}>
-          <Text style={styles.revTitle}>{this.props.rev.title}</Text>
-          <Text style={styles.revDesc}>"{this.props.rev.rev_desc}"</Text>
         </View>
 
       </View>
@@ -70,7 +64,7 @@ export default RevisionRow;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 5,
     borderTopWidth: .5,
     borderBottomWidth: .5,
     borderColor: '#004E89',
@@ -78,31 +72,21 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   revTitle: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingBottom: 5
   },
   revDesc: {
-    fontStyle: 'italic'
+    fontStyle: 'italic',
+    paddingBottom: 5
   },
-  dividedRow: {
+  actionBtn: {
+    paddingRight: 15,
+    textAlign: 'center'
+  },
+  btnRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    position: 'absolute',
-    bottom: 5,
-    left: 5
-  },
-  lowerBtn: {
-    color: 'white',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
-    margin: 5
-  },
-  flagBtn: {
-    fontSize: 19,
-    padding: 5,
-    textAlign: 'center',
-    margin: 5
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
   }
 });

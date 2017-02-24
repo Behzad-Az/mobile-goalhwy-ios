@@ -16,7 +16,7 @@ class RadioInput extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <View style={styles.component}>
+        <View>
           <RadioForm
             formHorizontal={this.props.horizontal}
             animation={true}
@@ -59,9 +59,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center'
-  },
-  component: {
-    marginBottom: 10
   },
   radioButtonWrap: {
     marginRight: 10

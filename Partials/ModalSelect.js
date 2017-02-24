@@ -27,9 +27,9 @@ class ModalSelect extends Component {
 
   determineBtnContent() {
     if (this.props.btnContent.type === 'icon') {
-      return <FontAwesome name={this.props.btnContent.name} style={this.props.style} /> ;
+      return <FontAwesome name={this.props.btnContent.name} style={this.props.style} onPress={() => this.setModalVisible(true)} /> ;
     } else {
-      return this.props.btnContent.name;
+      return <Text style={this.props.style} onPress={() => this.setModalVisible(true)}>{this.props.btnContent.name}</Text>
     }
   }
 
@@ -50,17 +50,19 @@ class ModalSelect extends Component {
           <TouchableHighlight style={styles.modalContainer} onPress={() => this.setModalVisible(false)}>
             <View style={styles.selectionBox}>
               { this.props.options.map((option, index) =>
-                <Text key={index} style={styles.selectRow} onPress={() => this.submitSelect(option.value, option.label)}>
-                  {option.label}
-                </Text>
+                <View key={index} style={styles.selectRow}>
+                  <Text onPress={() => this.submitSelect(option.value, option.label)}>
+                    {option.label}
+                  </Text>
+                </View>
               )}
             </View>
 
           </TouchableHighlight>
         </Modal>
-        <Text style={this.props.style} onPress={() => this.setModalVisible(true)}>
-          { this.determineBtnContent() }
-        </Text>
+
+        { this.determineBtnContent() }
+
       </View>
     );
   }

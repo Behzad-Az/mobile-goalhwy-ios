@@ -10,16 +10,12 @@ import { FontAwesome } from '@exponent/vector-icons';
 class TopRow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showDetails: true
-    };
     this.getAverageValues = this.getAverageValues.bind(this);
     this.getProfAvgRatings = this.getProfAvgRatings.bind(this);
     this.decodeProf = this.decodeProf.bind(this);
     this.decodeWorkload = this.decodeWorkload.bind(this);
     this.decodeFairness = this.decodeFairness.bind(this);
     this.getStarName = this.getStarName.bind(this);
-    this.renderDetails = this.renderDetails.bind(this);
   }
 
   getAverageValues() {
@@ -105,43 +101,33 @@ class TopRow extends React.Component {
     else return "star-o";
   }
 
-  renderDetails() {
+  render() {
     let profAvgs = this.getProfAvgRatings();
     let overallAvgs = this.getAverageValues();
-    return this.state.showDetails ?
-      <View style={styles.dividedRow}>
-        <View style={{flex: 1, padding: 5}}>
-          <Text style={styles.topRowLabel}>Average Ratings:</Text>
-          <Text style={styles.textRow}>
-            Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
-            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
-            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
-            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
-            <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
-          </Text>
-          <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.prof_rating)}</Text>
-          <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairness_rating)}</Text>
-          <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workload_rating)}</Text>
-        </View>
-        <View style={{flex: 1, padding: 5}}>
-          <Text style={styles.topRowLabel}>Previous Instructors:</Text>
-          {profAvgs}
-        </View>
-      </View> :
-      <Text style={styles.summaryInfo}>
-        Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
-        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
-        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
-        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
-        <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
-      </Text>
-  }
-
-  render() {
     return (
-      <View style={styles.componentContainer}>
+      <View style={styles.container}>
         <Text style={styles.header} onPress={() => this.setState({showDetails: !this.state.showDetails})}>Summary:</Text>
-        { this.renderDetails() }
+
+        <View style={styles.dividedRow}>
+          <View style={{flex: 1, padding: 5}}>
+            <Text style={styles.topRowLabel}>Average Ratings:</Text>
+            <Text style={styles.textRow}>
+              Overall: <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 1)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 2)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 3)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 4)} size={19} color="black" />
+              <FontAwesome name={this.getStarName(overallAvgs.overall_rating, 5)} size={19} color="black" />
+            </Text>
+            <Text style={styles.textRow}>Teaching: {this.decodeProf(overallAvgs.prof_rating)}</Text>
+            <Text style={styles.textRow}>Evaluation: {this.decodeFairness(overallAvgs.fairness_rating)}</Text>
+            <Text style={styles.textRow}>Workload: {this.decodeWorkload(overallAvgs.workload_rating)}</Text>
+          </View>
+          <View style={{flex: 1, padding: 5}}>
+            <Text style={styles.topRowLabel}>Previous Instructors:</Text>
+            {profAvgs}
+          </View>
+        </View>
+
       </View>
     );
   }
@@ -150,27 +136,23 @@ class TopRow extends React.Component {
 export default TopRow;
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 10,
+    backgroundColor: 'white',
+    borderColor: '#004E89',
+    borderBottomWidth: .5
+  },
   header: {
     backgroundColor: '#004E89',
     padding: 5,
     color: 'white',
     fontWeight: 'bold'
   },
-  headerStanAloneChevron: {
-    textAlign: 'center',
-    fontSize: 19,
-    color: 'white',
-    textAlign: 'right',
-    position: 'absolute',
-    top: 5,
-    right: 12
-  },
   topRowLabel: {
     color: '#004E89',
     fontWeight: 'bold',
     borderBottomWidth: .5,
     borderColor: '#004E89',
-    paddingBottom: 5
   },
   textRow: {
     paddingTop: 5
@@ -179,19 +161,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'
-  },
-  summaryInfo: {
-    padding: 5,
-    backgroundColor: '#eee',
-    borderBottomWidth: .5,
-    borderLeftWidth: .5,
-    borderRightWidth: .5
-  },
-  componentContainer: {
-    marginBottom: 10,
-    backgroundColor: 'white',
-    borderColor: '#004E89',
-    borderBottomWidth: .5
   }
 });
 

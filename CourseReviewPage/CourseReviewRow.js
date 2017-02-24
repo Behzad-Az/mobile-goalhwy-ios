@@ -70,7 +70,7 @@ class CourseReviewRow extends React.Component {
       <View style={styles.container}>
         <View style={styles.dividedRow}>
 
-          <View style={{flex: 1, padding: 5}}>
+          <View style={{flex: 1}}>
             <Text style={styles.textRow}>
               Overall: <FontAwesome name={this.getStarName(this.props.review.overall_rating, 1)} size={19} color="black" />
               <FontAwesome name={this.getStarName(this.props.review.overall_rating, 2)} size={19} color="black" />
@@ -83,7 +83,7 @@ class CourseReviewRow extends React.Component {
             <Text style={styles.textRow}>By: {this.props.review.reviewer_name || "anonymous"}</Text>
           </View>
 
-          <View style={{flex: 1, padding: 5}}>
+          <View style={{flex: 1}}>
             <Text style={styles.textRow}>Teaching: {this.decodeProf(this.props.review.prof_rating)}</Text>
             <Text style={styles.textRow}>Evaluation: {this.decodeFairness(this.props.review.fairness_rating)}</Text>
             <Text style={styles.textRow}>Workload: {this.decodeWorkload(this.props.review.workload_rating)}</Text>
@@ -91,7 +91,11 @@ class CourseReviewRow extends React.Component {
           </View>
 
         </View>
-        <Text style={styles.descText}>"{this.props.review.review_desc || "no comment provided"}"</Text>
+
+        <View style={styles.descContainer}>
+          <Text style={styles.descText}>"{this.props.review.review_desc || "no comment provided"}"</Text>
+        </View>
+
       </View>
     );
   }
@@ -114,13 +118,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   textRow: {
-    paddingTop: 5
+    paddingBottom: 5
   },
-  descText: {
+  descContainer: {
     paddingTop: 5,
     paddingBottom: 5,
     borderTopWidth: .5,
     borderColor: '#004E89',
+  },
+  descText: {
     fontStyle: 'italic'
   }
 });

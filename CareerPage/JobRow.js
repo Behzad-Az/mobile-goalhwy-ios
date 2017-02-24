@@ -44,7 +44,9 @@ class RevisionRow extends React.Component {
       <View style={styles.container}>
 
         <View style={{position: 'absolute', right: 5, zIndex: 1}}>
-          <Text style={styles.applyBtn}>Apply</Text>
+          <View style={styles.applyBtnContainer}>
+            <Text style={styles.applyBtnText}>Apply</Text>
+          </View>
           <FlagModal
             options={this.flagOptions}
             handleSelect={this.handleFlagSelect}
@@ -66,8 +68,11 @@ class RevisionRow extends React.Component {
               @ {this.props.job.company}
             </Text>
             <Text style={{fontSize: 12, paddingBottom: 5}}>Job Level: {this.props.job.kind}</Text>
-            <View style={styles.tagContainer}>
-              { this.props.job.tags.map((tag, index) => <Text key={index} style={styles.tag}>{tag}</Text> )}
+            <View style={styles.tagsContainer}>
+              { this.props.job.tags.map((tag, index) =>
+                <View key={index} style={styles.tagContainer}>
+                  <Text style={styles.tagText}>{tag}</Text>
+                </View> )}
             </View>
           </View>
         </View>
@@ -93,17 +98,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  applyBtn: {
-    color: 'white',
+  applyBtnContainer: {
     backgroundColor: '#004E89',
-    paddingLeft: 7,
-    paddingRight: 7,
-    paddingTop: 2,
-    paddingBottom: 5,
+    padding: 5,
     borderRadius: 5,
+    marginTop: 5
+  },
+  applyBtnText: {
+    color: 'white',
     textAlign: 'center',
-    marginTop: 5,
-    fontSize: 13,
+    fontSize: 13
   },
   flagBtn: {
     fontSize: 13,
@@ -114,21 +118,24 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     color: '#004E89'
   },
-  tagContainer: {
+  tagsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    paddingBottom: 5
   },
-  tag: {
+  tagContainer: {
     backgroundColor: '#82ABCA',
-    color: 'white',
-    fontWeight: 'bold',
     margin: 3,
     paddingLeft: 7,
     paddingRight: 7,
-    paddingTop: 2,
-    paddingBottom: 2,
-    borderRadius: 10,
+    paddingTop: 3,
+    paddingBottom: 3,
+    borderRadius: 10
+  },
+  tagText: {
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 10
   }
 });

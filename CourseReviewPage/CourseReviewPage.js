@@ -28,7 +28,6 @@ class CourseReviewPage extends React.Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      showReviews: true,
       courseInfo: {},
       courseReviews: [],
       sortedBy: '',
@@ -36,7 +35,6 @@ class CourseReviewPage extends React.Component {
       searchResults: []
     };
     this.loadComponentData = this.loadComponentData.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
     this.sortReviews = this.sortReviews.bind(this);
     this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
@@ -63,10 +61,6 @@ class CourseReviewPage extends React.Component {
     });
   }
 
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
-  }
-
   sortReviews(sortedBy) {
     switch(sortedBy) {
       case "date_new_to_old":
@@ -90,14 +84,6 @@ class CourseReviewPage extends React.Component {
     this.setState({ sortedBy });
   }
 
-  renderReviews() {
-    let reviewCount = this.state.courseReviews.length;
-    let lastUpdate = reviewCount ? this.state.courseReviews[0].review_created_at.slice(0, 10) : '';
-    return this.state.showReviews ?
-      this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) :
-      <Text style={styles.summaryInfo}>{reviewCount} review(s)... last update on {lastUpdate}</Text>
-  }
-
   renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
@@ -112,7 +98,8 @@ class CourseReviewPage extends React.Component {
         <View>
           <TopRow courseReviews={this.state.courseReviews} />
           <View style={styles.componentContainer}>
-            <Text style={styles.header} onPress={() => this.setState({showReviews: !this.state.showReviews})}>Reviews:</Text>
+            <Text style={styles.header}>Reviews:</Text>
+
             <View style={styles.headerBtnContainer}>
               <SortModal
                 options={this.sortOptions}
@@ -126,9 +113,10 @@ class CourseReviewPage extends React.Component {
                 reload={this.loadComponentData}
                 style={styles.headerBtn}
               />
-
             </View>
-            { this.renderReviews() }
+
+
+            { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
           </View>
         </View>
       );
@@ -166,13 +154,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  summaryInfo: {
-    padding: 5,
-    backgroundColor: 'white',
-    borderBottomWidth: .5,
-    borderLeftWidth: .5,
-    borderRightWidth: .5
-  },
   componentContainer: {
     marginBottom: 10
   },
@@ -182,7 +163,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     position: 'absolute',
     right: 5,
-    top: 5
+    top: 5,
+    backgroundColor: '#004E89'
   },
   headerBtn: {
     paddingLeft: 7,
@@ -190,5 +172,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontSize: 19
-  },
+  }
 });

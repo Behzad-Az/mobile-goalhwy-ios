@@ -71,6 +71,7 @@ class NewCourseForm extends Component {
             <FormNavBar formTitle="New Course:" backFcn={this.setModalVisible} />
 
             <View style={styles.bodyContainer}>
+
               <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Prefix:</Text>
                 <TextInput

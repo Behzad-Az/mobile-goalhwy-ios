@@ -5,10 +5,12 @@ import {
   Text,
   View,
   ScrollView,
+  Picker,
   TextInput
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import FormNavBar from '../Navbar/FormNavBar.js';
 import CheckBox from 'react-native-check-box';
 import DistanceModal from '../Partials/ModalSelect.js';
 
@@ -125,8 +127,11 @@ class JobSearchForm extends Component {
   filterPreferenceTags() {
     let tempArr = this.state.tagFilterPhrase ? this.preferenceTags.filter(tag => tag.includes(this.state.tagFilterPhrase)) : this.preferenceTags;
     return tempArr[0] ?
-      tempArr.map((tag, index) => <Text key={index} style={styles.tag} onPress={() => this.moveUpTag(tag)}>{tag}</Text>) :
-      <Text style={{paddingLeft: 5}}>No matching tags found...</Text>;
+      tempArr.map((tag, index) =>
+      <View key={index} style={styles.tagContainer}>
+        <Text style={styles.tagText} onPress={() => this.moveUpTag(tag)}>{tag}</Text>
+      </View> ) :
+      <Text style={{padding: 5}}>No matching tags found...</Text>;
   }
 
   updateSearch() {
@@ -161,107 +166,114 @@ class JobSearchForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>Job Search Criteria:</Text>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Search Area:</Text>
+            <FormNavBar formTitle="Job Search Criteria:" backFcn={this.setModalVisible} />
+
+            <View style={styles.bodyContainer}>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Postal Code:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  onChangeText={postal_code => this.setState({postal_code})}
+                  value={this.state.postal_code}
+                  placeholder="Example: A1A1B1"
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Search Area:</Text>
+                <Picker
+                  selectedValue={this.state.job_distance}
+                  onValueChange={job_distance => this.setState({job_distance})}
+                  itemStyle={{fontSize: 16}}>
+                  { this.distanceOptions.map((dist, index) => <Picker.Item key={index} label={dist.label} value={dist.value} />) }
+                </Picker>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Categories:</Text>
+                <View style={styles.dividedRow}>
+                  <View style={{flex: 1, paddingRight: 5}}>
+                    <CheckBox
+                      style={styles.checkbox}
+                      onClick={() => this.handleJobKind("summer")}
+                      isChecked={ this.state.job_kind.includes("summer") }
+                      leftText="Part Time"
+                    />
+                    <CheckBox
+                      style={styles.checkbox}
+                      onClick={() => this.handleJobKind("junior")}
+                      isChecked={ this.state.job_kind.includes("junior") }
+                      leftText="Junior"
+                    />
+                  </View>
+                  <View style={{flex: 1, paddingLeft: 5}}>
+                    <CheckBox
+                      style={styles.checkbox}
+                      onClick={() => this.handleJobKind("internship")}
+                      isChecked={ this.state.job_kind.includes("internship") }
+                      leftText="Intern/Coop"
+                    />
+                    <CheckBox
+                      style={styles.checkbox}
+                      onClick={() => this.handleJobKind("senior")}
+                      isChecked={ this.state.job_kind.includes("senior") }
+                      leftText="Senior"
+                    />
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>My Preferenence Tages:</Text>
+                <View style={[styles.tagsContainer, {borderBottomWidth: 1, borderColor: '#004E89'}]}>
+                  { this.state.job_query.map((tag, index) =>
+                    <View key={index} style={styles.tagContainer}>
+                      <Text style={styles.tagText} onPress={() => this.moveDownTag(tag)}>{tag}</Text>
+                    </View>
+                  )}
+                  { !this.state.job_query[0] && <Text style={{padding: 5}}>Select tags from the list below...</Text> }
+                </View>
+                <TextInput
+                  style={styles.searchInput}
+                  onChangeText={tagFilterPhrase => this.setState({tagFilterPhrase})}
+                  value={this.state.tagFilterPhrase}
+                  placeholder="search for tags"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                />
+                <View style={styles.tagsContainer}>
+                  { this.filterPreferenceTags() }
+                </View>
+              </View>
+
               <View style={styles.dividedRow}>
-                <View style={{flex: 1, marginRight: 5}}>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={postal_code => this.setState({postal_code})}
-                    value={this.state.postal_code}
-                    placeholder="Postal Code"
-                    underlineColorAndroid="rgba(0,0,0,0)"
-                  />
+                <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={this.updateSearch}>
+                    Update
+                  </Text>
                 </View>
-                <View style={{flex: 1, marginLeft: 5}}>
-                  <DistanceModal
-                    options={this.distanceOptions}
-                    handleSelect={this.handleDistanceSelect}
-                    btnContent={{ type: 'text', name: this.determineDistanceText() }}
-                    style={styles.selectContainer}
-                  />
-                  <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
+                <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                    Cancel
+                  </Text>
                 </View>
               </View>
-            </View>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Categories:</Text>
-              <View style={styles.dividedRow}>
-                <View style={{flex: 1, paddingRight: 5}}>
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => this.handleJobKind("summer")}
-                    isChecked={ this.state.job_kind.includes("summer") }
-                    leftText="Part Time"
-                  />
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => this.handleJobKind("junior")}
-                    isChecked={ this.state.job_kind.includes("junior") }
-                    leftText="Junior"
-                  />
-                </View>
-                <View style={{flex: 1, paddingLeft: 5}}>
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => this.handleJobKind("internship")}
-                    isChecked={ this.state.job_kind.includes("internship") }
-                    leftText="Intern/Coop"
-                  />
-                  <CheckBox
-                    style={styles.checkbox}
-                    onClick={() => this.handleJobKind("senior")}
-                    isChecked={ this.state.job_kind.includes("senior") }
-                    leftText="Senior"
-                  />
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>My Preferenence Tages:</Text>
-              <View style={[styles.tagContainer, {borderBottomWidth: 1, borderColor: '#004E89'}]}>
-                { this.state.job_query.map((tag, index) =>
-                  <Text key={index} style={styles.tag} onPress={() => this.moveDownTag(tag)}>{tag}</Text>
-                )}
-                { !this.state.job_query[0] && <Text>Select tags from the list below...</Text> }
-              </View>
-              <TextInput
-                style={[styles.textInput, {marginTop: 10}]}
-                onChangeText={tagFilterPhrase => this.setState({tagFilterPhrase})}
-                value={this.state.tagFilterPhrase}
-                placeholder="search for tags"
-                underlineColorAndroid="rgba(0,0,0,0)"
-              />
-              <View style={styles.tagContainer}>
-                { this.filterPreferenceTags() }
-              </View>
-            </View>
-
-            <View style={[styles.dividedRow, {marginTop: 10, marginBottom: 10}]}>
-              <View style={{flex: 1}}>
-                <Text onPress={this.updateSearch} style={[styles.primaryBtn, {marginRight: 5}]}>
-                  Update
-                </Text>
-              </View>
-              <View style={{flex: 1}}>
-                <Text onPress={() => this.setModalVisible(false)} style={[styles.primaryBtn, {marginLeft: 5}]}>
-                  Go Back
-                </Text>
-              </View>
             </View>
 
           </ScrollView>
         </Modal>
 
-        <View style={{alignItems: 'center'}}>
-          <Text style={[styles.primaryBtn, {width: 200}]} onPress={() => this.setModalVisible(true)}>
-            <FontAwesome name="search" size={19} color="white" /> Job Search Criteria
-          </Text>
+        <View style={{flex: 1, alignItems: 'center', marginBottom: 5}}>
+          <View style={{width: 200, backgroundColor: '#004E89', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 5, padding: 5}}>
+            <FontAwesome name="search" size={19} color="white" onPress={() => this.setModalVisible(true)} />
+            <Text style={{color: 'white', fontWeight: 'bold', paddingLeft: 10}} onPress={() => this.setModalVisible(true)}>Job Search Criteria</Text>
+          </View>
         </View>
+
       </View>
     );
   }
@@ -271,56 +283,46 @@ export default JobSearchForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25
+  },
+  bodyContainer: {
     padding: 10
   },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
-  },
-  inputCotainer: {
-    marginTop: 10,
+  inputContainer: {
+    marginBottom: 10,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#aaa'
   },
-  selectContainer: {
-    marginBottom: 5,
-    borderWidth: .5,
-    borderRadius: 5,
-    padding: 4.5,
-    borderColor: '#aaa',
-    alignItems: 'center'
-  },
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold',
-    marginBottom: 5
+    paddingTop: 2.5
+  },
+  textInput: {
+    minHeight: 30,
+    paddingTop: 2.5,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    marginBottom: 5
-  },
-  textInput: {
+   searchInput: {
+    marginTop: 5,
     marginBottom: 5,
     paddingRight: 5,
     paddingLeft: 5,
+    paddingTop: 2,
+    paddingBottom: 2,
     borderWidth: .5,
-    borderColor: '#aaa',
-    borderRadius: 5
+    borderColor: '#999',
+    borderRadius: 5,
+    backgroundColor: 'white',
+    minHeight: 30,
+    fontSize: 16
   },
   checkbox: {
     paddingBottom: 5,
@@ -328,22 +330,36 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     flex: 1
   },
-  tagContainer: {
+  tagsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
     paddingBottom: 5
   },
-  tag: {
+  tagContainer: {
     backgroundColor: '#82ABCA',
-    color: 'white',
-    fontWeight: 'bold',
     margin: 3,
     paddingLeft: 7,
     paddingRight: 7,
-    paddingTop: 2,
-    paddingBottom: 2,
-    borderRadius: 10,
-    fontSize: 10
+    paddingTop: 3,
+    paddingBottom: 3,
+    borderRadius: 10
+  },
+  tagText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
+  primaryBtn: {
+    color: 'white',
+    textAlign: 'center'
   }
 });

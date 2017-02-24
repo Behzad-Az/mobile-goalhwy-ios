@@ -52,10 +52,8 @@ class AutoCompleteTextInput extends React.Component {
           defaultValue={this.state.query}
           onChangeText={query => this.handleChange(query)}
           renderItem={query => (
-            <TouchableOpacity onPress={() => this.handleSelection(query)}>
-              <Text style={styles.itemText}>
-                {query}
-              </Text>
+            <TouchableOpacity style={styles.itemTextContainer} onPress={() => this.handleSelection(query)}>
+              <Text style={styles.itemText}>{query}</Text>
             </TouchableOpacity>
           )}
         />
@@ -82,10 +80,12 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0
   },
-  itemText: {
-    fontSize: 15,
+  itemTextContainer: {
     padding: 5,
     borderBottomWidth: .5,
     borderColor: '#ddd'
+  },
+  itemText: {
+    fontSize: 15
   }
 });
