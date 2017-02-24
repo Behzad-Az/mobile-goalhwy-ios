@@ -158,7 +158,7 @@ class NewAssistForm extends Component {
                   value={this.state.issue_desc}
                   placeholder="How may one of our tutors assist you?"
                   underlineColorAndroid="rgba(0,0,0,0)"
-                  onContentSizeChange={(event) => {
+                  onContentSizeChange={event => {
                     this.setState({height: event.nativeEvent.contentSize.height});
                   }}
                 />
@@ -190,19 +190,21 @@ const styles = StyleSheet.create({
   bodyContainer: {
     padding: 10
   },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
-  },
   inputContainer: {
     marginBottom: 10,
     padding: 5,
     borderWidth: .5,
     borderRadius: 5,
     borderColor: '#aaa'
+  },
+  inputLabel: {
+    color: '#004E89',
+    fontWeight: 'bold',
+    paddingTop: 2.5
+  },
+  textInput: {
+    paddingTop: 2.5,
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
@@ -218,13 +220,6 @@ const styles = StyleSheet.create({
   headerBtn: {
     textAlign: 'center',
     fontSize: 19
-  },
-  inputLabel: {
-    color: '#004E89',
-    fontWeight: 'bold'
-  },
-  textInput: {
-    fontSize: 16
   },
   primaryBtnContainer: {
     backgroundColor: '#004E89',

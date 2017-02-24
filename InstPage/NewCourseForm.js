@@ -178,12 +178,11 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold',
-    paddingTop: 2.5,
-    paddingBottom: 5
+    paddingTop: 2.5
   },
   textInput: {
-    fontSize: 16,
-    minHeight: 25,
+    minHeight: 30,
+    paddingTop: 2.5,
     fontSize: 16
   },
   dividedRow: {
