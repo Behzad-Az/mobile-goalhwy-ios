@@ -43,8 +43,8 @@ class ChangeInstForm extends Component {
     };
     this.state = {
       modalVisible: false,
-      inst_long_name: '',
-      inst_short_name: '',
+      instLongName: '',
+      instShortName: '',
       country: '',
       province: ''
     };
@@ -75,8 +75,12 @@ class ChangeInstForm extends Component {
   }
 
   handleNewInstPost() {
-    let data = { ...this.state };
-    delete data.modalVisible;
+    let data = {
+      country: this.state.country,
+      province:  this.state.province,
+      inst_long_name: this.state.instLongName,
+      inst_short_name: this.state.instShortName
+    };
     fetch('http://127.0.0.1:19001/api/institutions', {
       method: 'POST',
       headers: {
@@ -112,8 +116,8 @@ class ChangeInstForm extends Component {
                 <TextInput
                   style={styles.textInput}
                   autoCapitalize="words"
-                  onChangeText={inst_long_name => this.setState({inst_long_name})}
-                  value={this.state.inst_long_name}
+                  onChangeText={instLongName => this.setState({instLongName})}
+                  value={this.state.instLongName}
                   placeholder="Example: University of British Columbia"
                   underlineColorAndroid="rgba(0,0,0,0)"
                 />
@@ -124,8 +128,9 @@ class ChangeInstForm extends Component {
                 <TextInput
                   style={styles.textInput}
                   autoCapitalize="words"
-                  onChangeText={inst_short_name => this.setState({inst_short_name})}
-                  value={this.state.inst_short_name}
+                  autoCorrect={false}
+                  onChangeText={instShortName => this.setState({instShortName})}
+                  value={this.state.instShortName}
                   placeholder="Example: UBC"
                   underlineColorAndroid="rgba(0,0,0,0)"
                 />

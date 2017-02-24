@@ -54,6 +54,8 @@ class ChangeInstForm extends Component {
             <View style={styles.bodyContainer}>
               <TextInput
                 style={styles.searchInput}
+                autoCorrect={false}
+                autoCapitalize="none"
                 onChangeText={filterPhrase => this.setState({ filterPhrase })}
                 placeholder="Search institutions here..." />
 

@@ -22,8 +22,8 @@ class NewCourseForm extends Component {
     this.state = {
       prefix: '',
       suffix: '',
-      course_desc: '',
-      course_year: '',
+      courseDesc: '',
+      courseYear: '',
       modalVisible: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -36,10 +36,12 @@ class NewCourseForm extends Component {
 
   handleNewCoursePost() {
     let data = {
-      ...this.state,
+      prefix: this.state.prefix,
+      suffix: this.state.suffix,
+      course_desc: this.state.courseDesc,
+      course_year: this.state.courseYear,
       inst_id: this.props.instId
     };
-    delete data.modalVisible;
     fetch('http://127.0.0.1:19001/api/courses', {
       method: 'POST',
       headers: {
@@ -74,6 +76,7 @@ class NewCourseForm extends Component {
                 <TextInput
                   style={styles.textInput}
                   autoCapitalize="characters"
+                  autoCorrect={false}
                   onChangeText={prefix => this.setState({prefix})}
                   value={this.state.prefix}
                   placeholder="Example: MATH"
@@ -86,6 +89,7 @@ class NewCourseForm extends Component {
                 <TextInput
                   style={styles.textInput}
                   autoCapitalize="characters"
+                  autoCorrect={false}
                   onChangeText={suffix => this.setState({suffix})}
                   value={this.state.suffix}
                   placeholder="Example: 101"
@@ -98,8 +102,8 @@ class NewCourseForm extends Component {
                 <TextInput
                   style={styles.textInput}
                   autoCapitalize="sentences"
-                  onChangeText={course_desc => this.setState({course_desc})}
-                  value={this.state.course_desc}
+                  onChangeText={courseDesc => this.setState({courseDesc})}
+                  value={this.state.courseDesc}
                   placeholder="Example: Introducion to calculus"
                   underlineColorAndroid="rgba(0,0,0,0)"
                 />
@@ -108,14 +112,14 @@ class NewCourseForm extends Component {
               <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Select Academic Year:</Text>
                 <PickerIOS
-                  selectedValue={this.state.course_year}
-                  itemStyle={{textAlign: 'left', paddingLeft: 5, paddingRight: 5}}
-                  onValueChange={course_year => this.setState({ course_year })}>
-                  { this.courseYearOptions.map((course_year, index) =>
+                  selectedValue={this.state.courseYear}
+                  itemStyle={{fontSize: 16}}
+                  onValueChange={courseYear => this.setState({ courseYear })}>
+                  { this.courseYearOptions.map((courseYear, index) =>
                     <PickerItem
                       key={index}
-                      value={course_year.value}
-                      label={`${course_year.label}`}
+                      value={courseYear.value}
+                      label={`Year ${courseYear.label}`}
                     />)}
                 </PickerIOS>
               </View>
