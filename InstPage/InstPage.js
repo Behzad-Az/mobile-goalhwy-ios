@@ -109,6 +109,8 @@ class InstPage extends React.Component {
           </View>
           <TextInput
             style={styles.textInput}
+            autoCorrect={false}
+            autoCapitalize="none"
             onChangeText={filterPhrase => this.setState({ filterPhrase })}
             placeholder="Search courses here..."
           />

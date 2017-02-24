@@ -11,7 +11,6 @@ class FormNavBar extends React.Component {
   }
 
   render() {
-    console.log("i'm here: ", this.props.formTitle);
     return (
       <View style={styles.container}>
         <Text style={styles.formTitle}>{this.props.formTitle}</Text>
@@ -53,7 +52,6 @@ const styles = StyleSheet.create({
   },
   formTitle: {
     color: 'white',
-    textAlign: 'center',
     paddingLeft: 70,
     paddingTop: 3,
     paddingBottom: 3,

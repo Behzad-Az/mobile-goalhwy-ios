@@ -103,11 +103,13 @@ class SearhBar extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.backBtnContainer}>
-          <Text style={styles.backBtnText}>Back</Text>
+          <Text style={styles.backBtnText} onPress={() => Actions.pop()}>Back</Text>
         </View>
         <TextInput
           style={[styles.textInput, {width: Dimensions.get('window').width - 70}]}
           onChangeText={query => this.handleSearch(query)}
+          autoCorrect={false}
+          autoCapitalize="none"
           value={this.state.query}
           placeholder="search courses, documents and employers here"
           underlineColorAndroid="rgba(0,0,0,0)"

@@ -5,11 +5,12 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput
+  TextInput,
+  PickerIOS
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
-import CourseYearSelect from '../Partials/ModalSelect.js';
+import FormNavBar from '../Navbar/FormNavBar.js';
 
 class NewCourseForm extends Component {
   constructor(props) {
@@ -26,16 +27,11 @@ class NewCourseForm extends Component {
       modalVisible: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
-    this.handleCourseYearSelect = this.handleCourseYearSelect.bind(this);
     this.handleNewCoursePost = this.handleNewCoursePost.bind(this);
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
-  }
-
-  handleCourseYearSelect(course_year) {
-    this.setState({ course_year });
   }
 
   handleNewCoursePost() {
@@ -59,6 +55,7 @@ class NewCourseForm extends Component {
   }
 
   render() {
+    let PickerItem = PickerIOS.Item;
     return (
       <View>
         <Modal
@@ -68,65 +65,74 @@ class NewCourseForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>New Course:</Text>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Prefix:</Text>
-              <TextInput
-                style={styles.textInput}
-                autoCapitalize="characters"
-                onChangeText={prefix => this.setState({prefix})}
-                value={this.state.prefix}
-                placeholder="Example: MATH"
-                underlineColorAndroid="rgba(0,0,0,0)"
-              />
-            </View>
+            <FormNavBar formTitle="New Course:" backFcn={this.setModalVisible} />
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Suffix:</Text>
-              <TextInput
-                style={styles.textInput}
-                autoCapitalize="characters"
-                onChangeText={suffix => this.setState({suffix})}
-                value={this.state.suffix}
-                placeholder="Example: 101"
-                underlineColorAndroid="rgba(0,0,0,0)"
-              />
-            </View>
-
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Title:</Text>
-              <TextInput
-                style={styles.textInput}
-                autoCapitalize="sentences"
-                onChangeText={course_desc => this.setState({course_desc})}
-                value={this.state.course_desc}
-                placeholder="Example: Introducion to calculus"
-                underlineColorAndroid="rgba(0,0,0,0)"
-              />
-            </View>
-
-            <View>
-              <CourseYearSelect
-                options={this.courseYearOptions}
-                handleSelect={this.handleCourseYearSelect}
-                btnContent={{ type: 'text', name: this.state.course_year || 'Select academic year' }}
-                style={[styles.selectContainer, {color: this.state.course_year ? 'black' : '#004E89', fontWeight: this.state.course_year ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleNewCoursePost}>
-                  Submit
-                </Text>
+            <View style={styles.bodyContainer}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Prefix:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  autoCapitalize="characters"
+                  onChangeText={prefix => this.setState({prefix})}
+                  value={this.state.prefix}
+                  placeholder="Example: MATH"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                />
               </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
-                </Text>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Suffix:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  autoCapitalize="characters"
+                  onChangeText={suffix => this.setState({suffix})}
+                  value={this.state.suffix}
+                  placeholder="Example: 101"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                />
               </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Title:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  autoCapitalize="sentences"
+                  onChangeText={course_desc => this.setState({course_desc})}
+                  value={this.state.course_desc}
+                  placeholder="Example: Introducion to calculus"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Select Academic Year:</Text>
+                <PickerIOS
+                  selectedValue={this.state.course_year}
+                  itemStyle={{textAlign: 'left', paddingLeft: 5, paddingRight: 5}}
+                  onValueChange={course_year => this.setState({ course_year })}>
+                  { this.courseYearOptions.map((course_year, index) =>
+                    <PickerItem
+                      key={index}
+                      value={course_year.value}
+                      label={`${course_year.label}`}
+                    />)}
+                </PickerIOS>
+              </View>
+
+              <View style={styles.dividedRow}>
+                <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={this.handleNewCoursePost}>
+                    Submit
+                  </Text>
+                </View>
+                <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                    Cancel
+                  </Text>
+                </View>
+              </View>
+
             </View>
 
           </ScrollView>
@@ -145,6 +151,9 @@ export default NewCourseForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25
+  },
+  bodyContainer: {
     padding: 10
   },
   modalHeader: {
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#004E89'
   },
-  inputCotainer: {
+  inputContainer: {
     marginBottom: 10,
     padding: 5,
     borderWidth: .5,
@@ -176,11 +185,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10
   },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
   primaryBtn: {
     color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
     textAlign: 'center'
   },
   textInput: {

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import FormNavBar from '../Navbar/FormNavBar.js';
 
 class ChangeInstForm extends Component {
   constructor(props) {
@@ -48,32 +49,31 @@ class ChangeInstForm extends Component {
         >
           <ScrollView style={styles.modalContainer}>
 
-            <View style={styles.backBtnContainer}>
-              <Text style={styles.backBtnText}>Back</Text>
-            </View>
+            <FormNavBar formTitle="Select Institution:" backFcn={this.setModalVisible} />
 
-            <Text style={styles.modalHeader}>Select Institution:</Text>
-            <TextInput
-              style={styles.searchInput}
-              onChangeText={filterPhrase => this.setState({ filterPhrase })}
-              placeholder="Search institutions here..." />
+            <View style={styles.bodyContainer}>
+              <TextInput
+                style={styles.searchInput}
+                onChangeText={filterPhrase => this.setState({ filterPhrase })}
+                placeholder="Search institutions here..." />
 
-            { currInstList.map(inst =>
-              <Text key={inst.id} style={styles.instRowText} onPress={() => this.handleInstSelect(inst.id)}>
-                {inst.displayName}
-              </Text>
-            )}
-
-            <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]}>
-                  Select
+              { currInstList.map(inst =>
+                <Text key={inst.id} style={styles.instRowText} onPress={() => this.handleInstSelect(inst.id)}>
+                  {inst.displayName}
                 </Text>
-              </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
-                </Text>
+              )}
+
+              <View style={styles.dividedRow}>
+                <View style={{flex: 1}}>
+                  <Text style={[styles.primaryBtn, {marginRight: 5}]}>
+                    Select
+                  </Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
+                    Go Back
+                  </Text>
+                </View>
               </View>
             </View>
 
@@ -91,15 +91,10 @@ export default ChangeInstForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    padding: 10
+    paddingTop: 25
   },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
+  bodyContainer: {
+    padding: 10
   },
   dividedRow: {
     flex: 1,
@@ -131,18 +126,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 25,
     fontSize: 16
-  },
-  backBtnContainer: {
-    width: 50,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#004E89',
-    padding: 5,
-    backgroundColor: '#004E89',
-    marginBottom: 10
-  },
-  backBtnText: {
-    color: 'white',
-    textAlign: 'center'
   }
 });
