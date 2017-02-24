@@ -156,13 +156,13 @@ const styles = StyleSheet.create({
     margin: 5,
     paddingRight: 5,
     paddingLeft: 5,
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingTop: 2,
+    paddingBottom: 2,
     borderWidth: .5,
     borderColor: '#999',
     borderRadius: 5,
     backgroundColor: 'white',
-    height: 25,
+    height: 30,
     fontSize: 16
   },
   componentContainer: {
@@ -174,8 +174,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     position: 'absolute',
     right: 5,
-    backgroundColor: '#004E89',
-    top: 5
+    top: 5,
+    backgroundColor: '#004E89'
   },
   headerBtn: {
     paddingLeft: 7,

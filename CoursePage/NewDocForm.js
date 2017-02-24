@@ -156,7 +156,6 @@ class NewDocForm extends Component {
           <FontAwesome name="upload" style={styles.headerBtn} />
         </TouchableHighlight>
 
-
       </View>
     );
   }
