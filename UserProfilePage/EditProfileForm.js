@@ -17,7 +17,7 @@ class EditProfileForm extends Component {
   constructor(props) {
     super(props);
     this.userYearOptions = [
-      { value: 1, label: 1}, { value: 2, label: 2}, { value: 3, label: 3}, { value: 4, label: 4}, { value: 5, label: 5}, { value: 6, label: 6}
+      { value: 1, label: 'Year 1'}, { value: 2, label: 'Year 2'}, { value: 3, label: 'Year 3'}, { value: 4, label: 'Year 4'}, { value: 5, label: 'Year 5'}, { value: 6, label: 'Year 6'}
     ];
     this.state = {
       pageError: false,
@@ -137,6 +137,8 @@ class EditProfileForm extends Component {
                 <Text style={styles.inputLabel}>Username:</Text>
                 <TextInput
                   style={styles.textInput}
+                  autoCapitalize="none"
+                  autoCorrect={false}
                   onChangeText={username => this.setState({username})}
                   value={this.state.username}
                   placeholder="Enter username"
@@ -148,6 +150,8 @@ class EditProfileForm extends Component {
                 <Text style={styles.inputLabel}>Email:</Text>
                 <TextInput
                   style={styles.textInput}
+                  autoCapitalize="none"
+                  autoCorrect={false}
                   onChangeText={email => this.setState({email})}
                   value={this.state.email}
                   placeholder="Enter email"
@@ -168,7 +172,7 @@ class EditProfileForm extends Component {
 
               <View>
                 <ModalSelect
-                  options={programList}
+                  options={this.state.instDisplayName ? programList : [{ value: '', label: 'Select institution first.' }]}
                   handleSelect={this.handleSelectProgram}
                   btnContent={{ type: 'text', name: this.state.progDisplayName || 'Primary Program:' }}
                   style={[styles.selectContainer, {color: this.state.progDisplayName ? 'black' : '#004E89', fontWeight: this.state.progDisplayName ? 'normal' : 'bold'}]}

@@ -6,65 +6,71 @@ import {
   View,
   ScrollView,
   TextInput,
-  Picker,
   TouchableHighlight
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
 import FormNavBar from '../Navbar/FormNavBar.js';
+import ClosureSelect from '../Partials/ModalSelect.js';
 
 class NewAssistForm extends Component {
   constructor(props) {
     super(props);
+    this.closureOptions = [
+      { value: 'Resolved on my own', label: 'Resolved on my own' },
+      { value: 'Resolved with tutor', label: 'Resolved with tutor' },
+      { value: 'No longer needed', label: 'No longer needed' },
+      { value: 'Other', label: 'Other' }
+    ];
     this.state = {
       modalVisible: false,
       height: 0,
-      issue_desc: this.props.courseInfo.latestAssistRequest,
+      issueDesc: this.props.courseInfo.latestAssistRequest,
       assistReqOpen: this.props.courseInfo.assistReqOpen,
       closureReason: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
-    this.validateForm = this.validateForm.bind(this);
+    this.handleClosureSelect = this.handleClosureSelect.bind(this);
     this.formFooterOptions = this.formFooterOptions.bind(this);
     this.handleNewRequestAssist = this.handleNewRequestAssist.bind(this);
     this.handleUpdateRequestAssist = this.handleUpdateRequestAssist.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    nextProps.courseInfo.latestAssistRequest !== this.state.issue_desc ? this.setState({ issue_desc: nextProps.courseInfo.latestAssistRequest }) : '';
-    nextProps.courseInfo.assistReqOpen !== this.state.assistReqOpen ? this.setState({ assistReqOpen: nextProps.courseInfo.assistReqOpen }) : '';
+    if (nextProps.courseInfo.latestAssistRequest !== this.state.issueDesc || nextProps.courseInfo.assistReqOpen !== this.state.assistReqOpen) {
+      this.setState({
+        issueDesc: nextProps.courseInfo.latestAssistRequest,
+        assistReqOpen: nextProps.courseInfo.assistReqOpen
+      });
+    }
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
 
-  validateForm() {
-    return this.state.issue_desc &&
-           this.state.issue_desc.length <= 400
+  handleClosureSelect(closureReason) {
+    this.setState({ closureReason });
   }
 
   formFooterOptions() {
     if (this.state.assistReqOpen) {
       return (
         <View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Select outcome to close the issue?</Text>
-            <Picker
-              selectedValue={this.state.closureReason}
-              onValueChange={closureReason => this.setState({closureReason})}
-              itemStyle={{fontSize: 16}}>
-              <Picker.Item label="-" value="" />
-              <Picker.Item label="Resolved on my own" value="Resolved on my own" />
-              <Picker.Item label="Resolved with tutor" value="Resolved with tutor" />
-              <Picker.Item label="No longer needed" value="No longer needed" />
-              <Picker.Item label="Other" value="Other" />
-            </Picker>
+
+          <View>
+            <ClosureSelect
+              options={this.closureOptions}
+              handleSelect={this.handleClosureSelect}
+              btnContent={{ type: 'text', name: this.state.closureReason ? this.state.closureReason : 'Select outcome to close the issue' }}
+              style={[styles.selectContainer, {color: this.state.closureReason ? 'black' : '#004E89', fontWeight: this.state.closureReason ? 'normal' : 'bold'}]}
+            />
+            <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
           </View>
 
           <View style={styles.dividedRow}>
             <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
-              <Text style={styles.primaryBtn} onPress={this.handleNewRequestAssist}>
+              <Text style={styles.primaryBtn} onPress={this.handleUpdateRequestAssist}>
                 Update
               </Text>
             </View>
@@ -96,9 +102,7 @@ class NewAssistForm extends Component {
   }
 
   handleNewRequestAssist() {
-    let data = {...this.state};
-    delete data.height;
-    delete data.modalVisible;
+    let data = { issue_desc: this.state.issueDesc };
     fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog`, {
       method: 'POST',
       headers: {
@@ -116,11 +120,10 @@ class NewAssistForm extends Component {
   handleUpdateRequestAssist() {
     let data = {
       action: this.state.closureReason ? 'close' : 'update',
-      issue_desc: this.state.issue_desc,
+      issue_desc: this.state.issueDesc,
       closure_reason: this.state.closureReason
     };
-    let newState = this.state.closureReason ? { assistReqOpen: false, issue_desc: '' } : { assistReqOpen: true };
-
+    let newState = this.state.closureReason ? { assistReqOpen: false, issueDesc: '' } : { assistReqOpen: true };
     fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog/update`, {
       method: 'POST',
       headers: {
@@ -154,8 +157,8 @@ class NewAssistForm extends Component {
                 <TextInput
                   style={[styles.textInput, {height: this.state.height}]}
                   multiline
-                  onChangeText={issue_desc => this.setState({issue_desc})}
-                  value={this.state.issue_desc}
+                  onChangeText={issueDesc => this.setState({issueDesc})}
+                  value={this.state.issueDesc}
                   placeholder="How may one of our tutors assist you?"
                   underlineColorAndroid="rgba(0,0,0,0)"
                   onContentSizeChange={event => {
@@ -232,5 +235,16 @@ const styles = StyleSheet.create({
   primaryBtn: {
     color: 'white',
     textAlign: 'center'
+  },
+  selectContainer: {
+    marginBottom: 10,
+    borderWidth: .5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });

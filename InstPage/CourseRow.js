@@ -20,11 +20,10 @@ class InstPage extends React.Component {
 
   handleSubscription() {
     let subStatus = !this.state.userAlreadySubscribed;
-    let userId = 1;
     let course_id = this.props.course.id;
 
     if (subStatus) {
-      fetch(`http://127.0.0.1:19001/api/users/${userId}/courses/${course_id}`, {
+      fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${course_id}`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -37,7 +36,7 @@ class InstPage extends React.Component {
       .catch(err => console.log("Error here: CourseRow.js: ", err));
 
     } else {
-      fetch(`http://127.0.0.1:19001/api/users/${userId}/courses/${course_id}`, {
+      fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${course_id}`, {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

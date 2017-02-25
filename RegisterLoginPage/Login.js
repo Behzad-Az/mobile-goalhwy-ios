@@ -63,6 +63,8 @@ class LoginPage extends React.Component {
         <View style={{margin: 5}}>
           <TextInput
             style={styles.textInput}
+            autoCapitalize="none"
+            autoCorrect={false}
             onChangeText={username => this.setState({ username })}
             placeholder="Username"
             underlineColorAndroid="rgba(0,0,0,0)"
@@ -73,6 +75,8 @@ class LoginPage extends React.Component {
         <View style={{margin: 5}}>
           <TextInput
             style={styles.textInput}
+            autoCapitalize="none"
+            autoCorrect={false}
             onChangeText={password => this.setState({ password })}
             placeholder="Password"
             secureTextEntry={true}
@@ -83,10 +87,13 @@ class LoginPage extends React.Component {
         </View>
 
         <View style={styles.dividedRow}>
-          <Text style={[styles.loginBtn, {flex: 1}]} onPress={this.handleLogin}>Login</Text>
+          <View style={styles.loginBtnContainer}>
+            <Text style={styles.loginBtn} onPress={this.handleLogin}>
+              Login
+            </Text>
+          </View>
           <NewRegisterForm style={styles.textStyle} setMessage={this.setMessage} />
         </View>
-
 
       </View>
     );
@@ -129,18 +136,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'white'
   },
-  loginBtn: {
-    padding: 5,
-    textAlign: 'center',
-    fontSize: 15,
-    color: '#004E89',
-    backgroundColor: 'white',
-    borderRadius: 5
-  },
   dividedRow: {
     width: 240,
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 5
+  },
+  loginBtnContainer: {
+    flex: 1,
+    padding: 5,
+    backgroundColor: 'white',
+    borderRadius: 5
+  },
+  loginBtn: {
+    textAlign: 'center',
+    fontSize: 15,
+    color: '#004E89'
   }
 });

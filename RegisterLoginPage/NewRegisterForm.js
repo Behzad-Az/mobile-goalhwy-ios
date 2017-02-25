@@ -12,12 +12,13 @@ import { FontAwesome } from '@exponent/vector-icons';
 import ModalSelect from '../Partials/ModalSelect.js';
 
 import SelectInstModal from './SelectInst.js';
+import FormNavBar from '../Navbar/FormNavBar.js';
 
 class NewRegisterForm extends Component {
   constructor(props) {
     super(props);
     this.userYearOptions = [
-      { value: 1, label: 1}, { value: 2, label: 2}, { value: 3, label: 3}, { value: 4, label: 4}, { value: 5, label: 5}, { value: 6, label: 6}
+      { value: 1, label: 'Year 1'}, { value: 2, label: 'Year 2'}, { value: 3, label: 'Year 3'}, { value: 4, label: 'Year 4'}, { value: 5, label: 'Year 5'}, { value: 6, label: 'Year 6'}
     ];
     this.state = {
       pageError: false,
@@ -77,7 +78,9 @@ class NewRegisterForm extends Component {
   }
 
   selectInst(instId, instDisplayName) {
-    this.setState({ instId, instDisplayName });
+    if (instId !== this.state.instId) {
+      this.setState({ instId, instDisplayName, progId: '', progDisplayName: '' });
+    }
   }
 
   selectProgram(progId, progDisplayName) {
@@ -126,96 +129,107 @@ class NewRegisterForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>New User:</Text>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Username:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={username => this.setState({username})}
-                value={this.state.username}
-                placeholder="Enter username"
-                underlineColorAndroid="rgba(0,0,0,0)"
-              />
-            </View>
+            <FormNavBar formTitle="New User Registration:" backFcn={this.setModalVisible} />
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Email:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={email => this.setState({email})}
-                value={this.state.email}
-                placeholder="Enter email"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                keyboardType="email-address"
-              />
-            </View>
+            <View style={styles.bodyContainer}>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Password:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={password => this.setState({password})}
-                value={this.state.password}
-                placeholder="Enter password"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                secureTextEntry={true}
-              />
-            </View>
-
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Confirm Password:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={passwordConfirm => this.setState({passwordConfirm})}
-                value={this.state.passwordConfirm}
-                placeholder="Confirm password"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                secureTextEntry={true}
-              />
-            </View>
-
-            <View>
-              <SelectInstModal
-                instList={this.state.instProgDropDownList}
-                selectInst={this.selectInst}
-                btnContent={this.state.instDisplayName || 'Primary Institution:'}
-                style={[styles.selectContainer, {color: this.state.instDisplayName ? 'black' : '#004E89', fontWeight: this.state.instDisplayName ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View>
-              <ModalSelect
-                options={programList}
-                handleSelect={this.selectProgram}
-                btnContent={{ type: 'text', name: this.state.progDisplayName || 'Primary Program:' }}
-                style={[styles.selectContainer, {color: this.state.progDisplayName ? 'black' : '#004E89', fontWeight: this.state.progDisplayName ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View>
-              <ModalSelect
-                options={this.userYearOptions}
-                handleSelect={this.selectUserYear}
-                btnContent={{ type: 'text', name: this.state.userYear || 'Academic Year:' }}
-                style={[styles.selectContainer, {color: this.state.userYear ? 'black' : '#004E89', fontWeight: this.state.userYear ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleRegister}>
-                  Register
-                </Text>
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Username:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={username => this.setState({username})}
+                  value={this.state.username}
+                  placeholder="Enter username"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                />
               </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
-                </Text>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Email:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onChangeText={email => this.setState({email})}
+                  value={this.state.email}
+                  placeholder="Enter email"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                  keyboardType="email-address"
+                />
               </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Password:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onChangeText={password => this.setState({password})}
+                  value={this.state.password}
+                  placeholder="Enter password"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                  secureTextEntry={true}
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Confirm Password:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onChangeText={passwordConfirm => this.setState({passwordConfirm})}
+                  value={this.state.passwordConfirm}
+                  placeholder="Confirm password"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                  secureTextEntry={true}
+                />
+              </View>
+
+              <View>
+                <SelectInstModal
+                  instList={this.state.instProgDropDownList}
+                  selectInst={this.selectInst}
+                  btnContent={this.state.instDisplayName || 'Primary Institution:'}
+                  style={[styles.selectContainer, {color: this.state.instDisplayName ? 'black' : '#004E89', fontWeight: this.state.instDisplayName ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+              </View>
+
+              <View>
+                <ModalSelect
+                  options={this.state.instDisplayName ? programList : [{ value: '', label: 'Select institution first.' }]}
+                  handleSelect={this.selectProgram}
+                  btnContent={{ type: 'text', name: this.state.progDisplayName || 'Primary Program:' }}
+                  style={[styles.selectContainer, {color: this.state.progDisplayName ? 'black' : '#004E89', fontWeight: this.state.progDisplayName ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+              </View>
+
+              <View>
+                <ModalSelect
+                  options={this.userYearOptions}
+                  handleSelect={this.selectUserYear}
+                  btnContent={{ type: 'text', name: `Year ${this.state.userYear}` || 'Academic Year:' }}
+                  style={[styles.selectContainer, {color: this.state.userYear ? 'black' : '#004E89', fontWeight: this.state.userYear ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+              </View>
+
+              <View style={styles.dividedRow}>
+                <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={this.handleRegister}>
+                    Register
+                  </Text>
+                </View>
+                <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                    Cancel
+                  </Text>
+                </View>
+              </View>
+
             </View>
 
           </ScrollView>
@@ -232,17 +246,12 @@ export default NewRegisterForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25
+  },
+  bodyContainer: {
     padding: 10
   },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
-  },
-  inputCotainer: {
+  inputContainer: {
     marginBottom: 10,
     padding: 5,
     borderWidth: .5,
@@ -252,27 +261,30 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold',
+    paddingTop: 2.5
+  },
+  textInput: {
+    minHeight: 30,
     paddingTop: 2.5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 5
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10
+    marginBottom: 5
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
   },
   primaryBtn: {
     color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
     textAlign: 'center'
-  },
-  textInput: {
-    paddingRight: 5,
-    paddingLeft: 5
   },
   selectContainer: {
     marginBottom: 10,

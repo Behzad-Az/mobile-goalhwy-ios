@@ -23,8 +23,7 @@ class InstPage extends React.Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      currInstId: '',
-      userId: '',
+      currInstId: this.props.instId,
       instList: [],
       currInstCourses: [],
       currUserCourseIds: [],
@@ -44,20 +43,19 @@ class InstPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.loadComponentData(nextProps.instId);
+    if (nextProps.instId && (this.state.currInstId !== nextProps.instId)) {
+      this.loadComponentData(nextProps.instId);
+    }
   }
 
   loadComponentData(instId) {
-    if (this.state.currInstId !== instId) {
-      instId = instId || this.state.currInstId;
-      fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
-      .then(response => response.json())
-      .then(resJSON => this.conditionData(resJSON, instId))
-      .catch(err => {
-        console.log("Error here: InstPage.js: ", err);
-        this.setState({ dataLoaded: true, pageError: true });
-      });
-    }
+    fetch(`http://127.0.0.1:19001/api/institutions/${instId}`)
+    .then(response => response.json())
+    .then(resJSON => this.conditionData(resJSON, instId))
+    .catch(err => {
+      console.log("Error here: InstPage.js: Promise Error: ", err);
+      this.setState({ dataLoaded: true, pageError: true });
+    });
   }
 
   conditionData(resJSON, instId) {
@@ -69,8 +67,9 @@ class InstPage extends React.Component {
       });
       resJSON.dataLoaded = true;
       this.setState(resJSON);
+      this.setState({ dataLoaded: true });
     } else {
-      console.log("Error here: InstPage.js: ", err);
+      console.log("Error here: InstPage.js: Server Error: ", err);
       this.setState({ dataLoaded: true, pageError: true });
     }
   }
@@ -114,7 +113,7 @@ class InstPage extends React.Component {
             onChangeText={filterPhrase => this.setState({ filterPhrase })}
             placeholder="Search courses here..."
           />
-          { slicedArr.map(course => <CourseRow key={course.id} course={course} currUserCourseIds={this.state.currUserCourseIds} userId={this.state.userId} />) }
+          { slicedArr.map(course => <CourseRow key={course.id} course={course} currUserCourseIds={this.state.currUserCourseIds} />) }
           { !slicedArr[0] && <NewCourseForm instId={this.state.currInstId} reload={this.loadComponentData} /> }
         </View>
       );

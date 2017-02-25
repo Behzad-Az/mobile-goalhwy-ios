@@ -5,19 +5,19 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput,
-  PickerIOS
+  TextInput
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
 import FormNavBar from '../Navbar/FormNavBar.js';
+import CourseYearSelect from '../Partials/ModalSelect.js';
 
 class NewCourseForm extends Component {
   constructor(props) {
     super(props);
     this.courseYearOptions = [
-      { value: 1, label: 1 }, { value: 2, label: 2 }, { value: 3, label: 3 },
-      { value: 4, label: 4 }, { value: 5, label: 5 }, { value: 6, label: 6 }
+      { value: 1, label: 'Year 1' }, { value: 2, label: 'Year 2' }, { value: 3, label: 'Year 3' },
+      { value: 4, label: 'Year 4' }, { value: 5, label: 'Year 5' }, { value: 6, label: 'Year 6' }
     ];
     this.state = {
       prefix: '',
@@ -27,11 +27,16 @@ class NewCourseForm extends Component {
       modalVisible: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.handleCourseYearSelect = this.handleCourseYearSelect.bind(this);
     this.handleNewCoursePost = this.handleNewCoursePost.bind(this);
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  handleCourseYearSelect(courseYear) {
+    this.setState({ courseYear });
   }
 
   handleNewCoursePost() {
@@ -51,13 +56,12 @@ class NewCourseForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server, NewCourseForm.js: ", resJSON))
+    .then(resJSON => resJSON ? this.props.reload(this.props.instId) : console.log("Error in server, NewCourseForm.js: ", resJSON))
     .catch(err => console.log("Error here in NewCourseForm.js: ", err));
     this.setModalVisible(false);
   }
 
   render() {
-    let PickerItem = PickerIOS.Item;
     return (
       <View>
         <Modal
@@ -110,19 +114,14 @@ class NewCourseForm extends Component {
                 />
               </View>
 
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Select Academic Year:</Text>
-                <PickerIOS
-                  selectedValue={this.state.courseYear}
-                  itemStyle={{fontSize: 16}}
-                  onValueChange={courseYear => this.setState({ courseYear })}>
-                  { this.courseYearOptions.map((courseYear, index) =>
-                    <PickerItem
-                      key={index}
-                      value={courseYear.value}
-                      label={`Year ${courseYear.label}`}
-                    />)}
-                </PickerIOS>
+              <View>
+                <CourseYearSelect
+                  options={this.courseYearOptions}
+                  handleSelect={this.handleCourseYearSelect}
+                  btnContent={{ type: 'text', name: this.state.courseYear ? `Year ${this.state.courseYear}` : 'Select Academic Year' }}
+                  style={[styles.selectContainer, {color: this.state.courseYear ? 'black' : '#004E89', fontWeight: this.state.courseYear ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
               <View style={styles.dividedRow}>
@@ -208,5 +207,16 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
     color: '#004E89'
+  },
+  selectContainer: {
+    marginBottom: 10,
+    borderWidth: .5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });

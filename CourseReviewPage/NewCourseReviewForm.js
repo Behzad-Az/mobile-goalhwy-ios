@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 
 import RadioInput from '../Partials/RadioInput.js';
-import AndroidDatePicker from '../Partials/AndroidDatePicker';
 import AutoCompleteTextInput from '../Partials/AutoCompleteTextInput.js';
 
 import { FontAwesome } from '@exponent/vector-icons';

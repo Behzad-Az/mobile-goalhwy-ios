@@ -6,26 +6,32 @@ import {
   View,
   ScrollView,
   TextInput,
-  Picker,
   TouchableHighlight
 } from 'react-native';
 
 import { ImagePicker } from 'exponent';
 import { FontAwesome } from '@exponent/vector-icons';
-
+import DocTypeSelect from '../Partials/ModalSelect.js';
 import FormNavBar from '../Navbar/FormNavBar.js';
 
 class NewDocForm extends Component {
   constructor(props) {
     super(props);
+    this.docTypeOptions = [
+      { value: "asg_report", label: "Assignment / Report" },
+      { value: "lecture_note", label: "Lecture Note" },
+      { value: "sample_question", label: "Sample Question" }
+    ];
     this.state = {
       modalVisible: false,
       title: '',
       type: '',
+      typeDisplayName: '',
       rev_desc: 'New Upload',
       file_path: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.handleDocTypeSelect = this.handleDocTypeSelect.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
     this.handleNewDocPost = this.handleNewDocPost.bind(this);
@@ -33,6 +39,10 @@ class NewDocForm extends Component {
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  handleDocTypeSelect(type, typeDisplayName) {
+    this.setState({ type, typeDisplayName });
   }
 
   validateForm() {
@@ -134,17 +144,14 @@ class NewDocForm extends Component {
                 />
               </View>
 
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Document Type:</Text>
-                <Picker
-                  selectedValue={this.state.type}
-                  onValueChange={type => this.setState({type})}
-                  itemStyle={{fontSize: 16}}>
-                  <Picker.Item label="-" value="" />
-                  <Picker.Item label="Assignment / Report" value="asg_report" />
-                  <Picker.Item label="Lecture Note" value="lecture_note" />
-                  <Picker.Item label="Sample Question" value="sample_question" />
-                </Picker>
+              <View>
+                <DocTypeSelect
+                  options={this.docTypeOptions}
+                  handleSelect={this.handleDocTypeSelect}
+                  btnContent={{ type: 'text', name: this.state.typeDisplayName ? this.state.typeDisplayName : 'Select Document Type' }}
+                  style={[styles.selectContainer, {color: this.state.typeDisplayName ? 'black' : '#004E89', fontWeight: this.state.typeDisplayName ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
               <View style={styles.dividedRow}>
@@ -244,5 +251,16 @@ const styles = StyleSheet.create({
   uploadBtn: {
     textAlign: 'center',
     paddingTop: 5
+  },
+  selectContainer: {
+    marginBottom: 10,
+    borderWidth: .5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });
