@@ -16,7 +16,6 @@ import JobSearchForm from './JobSearchForm.js';
 class CareerPage extends React.Component {
   constructor(props) {
     super(props);
-    this.userId = this.props.userId || 1;
     this.state = {
       dataLoaded: false,
       pageError: false,
@@ -34,7 +33,7 @@ class CareerPage extends React.Component {
   }
 
   loadComponentData() {
-    fetch(`http://127.0.0.1:19001/api/users/${this.userId}/jobs`)
+    fetch('http://127.0.0.1:19001/api/users/currentuser/jobs')
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {

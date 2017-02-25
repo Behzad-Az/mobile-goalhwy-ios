@@ -22,7 +22,6 @@ class EditProfileForm extends Component {
     this.state = {
       pageError: false,
       modalVisible: false,
-      userId: this.props.userInfo.userId,
       username: this.props.userInfo.username,
       email: this.props.userInfo.email,
       instId: this.props.userInfo.instId,
@@ -37,8 +36,8 @@ class EditProfileForm extends Component {
     this.conditionData = this.conditionData.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
     this.selectInst = this.selectInst.bind(this);
-    this.selectProgram = this.selectProgram.bind(this);
-    this.selectUserYear = this.selectUserYear.bind(this);
+    this.handleSelectProgram = this.handleSelectProgram.bind(this);
+    this.handleSelectUserYear = this.handleSelectUserYear.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
   }
 
@@ -85,11 +84,11 @@ class EditProfileForm extends Component {
     }
   }
 
-  selectProgram(progId, progDisplayName) {
+  handleSelectProgram(progId, progDisplayName) {
     this.setState({ progId, progDisplayName });
   }
 
-  selectUserYear(userYear) {
+  handleSelectUserYear(userYear) {
     this.setState({ userYear });
   }
 
@@ -102,7 +101,7 @@ class EditProfileForm extends Component {
       instId: this.state.instId,
       progId: this.state.progId
     };
-    fetch(`http://127.0.0.1:19001/api/users/${this.state.userId}`, {
+    fetch('http://127.0.0.1:19001/api/users/currentuser', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -164,27 +163,27 @@ class EditProfileForm extends Component {
                   btnContent={this.state.instDisplayName || 'Primary Institution:'}
                   style={[styles.selectContainer, {color: this.state.instDisplayName ? 'black' : '#004E89', fontWeight: this.state.instDisplayName ? 'normal' : 'bold'}]}
                 />
-                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
               <View>
                 <ModalSelect
                   options={programList}
-                  handleSelect={this.selectProgram}
+                  handleSelect={this.handleSelectProgram}
                   btnContent={{ type: 'text', name: this.state.progDisplayName || 'Primary Program:' }}
                   style={[styles.selectContainer, {color: this.state.progDisplayName ? 'black' : '#004E89', fontWeight: this.state.progDisplayName ? 'normal' : 'bold'}]}
                 />
-                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
               <View>
                 <ModalSelect
                   options={this.userYearOptions}
-                  handleSelect={this.selectUserYear}
+                  handleSelect={this.handleSelectUserYear}
                   btnContent={{ type: 'text', name: this.state.userYear ? `Year ${this.state.userYear}` : 'Academic Year:' }}
                   style={[styles.selectContainer, {color: this.state.userYear ? 'black' : '#004E89', fontWeight: this.state.userYear ? 'normal' : 'bold'}]}
                 />
-                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
 

@@ -5,20 +5,21 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput,
-  PickerIOS
+  TextInput
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
 import FormNavBar from '../Navbar/FormNavBar.js';
+import ModalSelect from '../Partials/ModalSelect.js';
 
 class ChangeInstForm extends Component {
   constructor(props) {
     super(props);
-    this.countryList = [ { value: '', label: '-' }, { value: 'canada', label: 'Canada' }, { value: 'united_states', label: 'United State of America (USA)' } ];
+    this.countryList = [
+      { value: 'canada', label: 'Canada' }, { value: 'united_states', label: 'United State of America (USA)' }
+    ];
     this.provinceList = {
       canada: [
-        { value: '', label: '-' },
         { value: 'Alberta', label: 'Alberta' }, { value: 'British Columbia', label: 'British Columbia' }, { value: 'Manitoba', label: 'Manitoba' },
         { value: 'New Brunswick', label: 'New Brunswick' }, { value: 'Newfoundland and Labrador', label: 'Newfoundland and Labrador' },
         { value: 'Northwest Territories', label: 'Northwest Territories' }, { value: 'Nova Scotia', label: 'Nova Scotia' }, { value: 'Nunavut', label: 'Nunavut' },
@@ -26,7 +27,6 @@ class ChangeInstForm extends Component {
         { value: 'Saskatchewan', label: 'Saskatchewan' }, { value: 'Yukon', label: 'Yukon' }
       ],
       united_states: [
-        { value: '', label: '-' },
         { value: 'AL', label: 'Alabama' }, { value: 'AK', label: 'Alaska' }, { value: 'AS', label: 'American Samoa' }, { value: 'AZ', label: 'Arizona' }, { value: 'AR', label: 'Arkansas' },
         { value: 'CA', label: 'California' }, { value: 'CO', label: 'Colorado' }, { value: 'CT', label: 'Connecticut' }, { value: 'DE', label: 'Delaware' }, { value: 'DC', label: 'District Of Columbia' },
         { value: 'FM', label: 'Federated States Of Micronesia' }, { value: 'FL', label: 'Florida' }, { value: 'GA', label: 'Georgia' }, { value: 'GU', label: 'Guam' },
@@ -41,15 +41,20 @@ class ChangeInstForm extends Component {
         { value: 'VA', label: 'Virginia' }, { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' }, { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' }
       ]
     };
+    this.disabledOptions = [{ value: '', label: 'Select country first.' }];
+
     this.state = {
       modalVisible: false,
       instLongName: '',
       instShortName: '',
-      country: '',
-      province: ''
+      countryVal: '',
+      countryName: '',
+      provinceVal: '',
+      provinceName: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
-    this.renderProvinceSelect = this.renderProvinceSelect.bind(this);
+    this.handleCountrySelect = this.handleCountrySelect.bind(this);
+    this.handleProvinceSelect = this.handleProvinceSelect.bind(this);
     this.handleNewInstPost = this.handleNewInstPost.bind(this);
   }
 
@@ -57,21 +62,14 @@ class ChangeInstForm extends Component {
     this.setState({modalVisible: visible});
   }
 
-  renderProvinceSelect() {
-    let PickerItem = PickerIOS.Item;
-    return this.state.country ?
-      <PickerIOS
-        selectedValue={this.state.province}
-        onValueChange={province => this.setState({ province })}
-        itemStyle={{fontSize: 16}}>
-        { this.provinceList[this.state.country].map((province, index) =>
-          <PickerItem
-            key={index}
-            value={province.value}
-            label={province.label}
-          />)}
-      </PickerIOS> :
-      <Text style={{paddingTop: 5, paddingBottom: 5}}>Select country first.</Text>
+  handleCountrySelect(countryVal, countryName) {
+    if (this.state.countryVal !== countryVal) {
+      this.setState({ countryVal, countryName, provinceVal: '', provinceName: '' });
+    }
+  }
+
+  handleProvinceSelect(provinceVal, provinceName) {
+    this.setState({ provinceVal, provinceName });
   }
 
   handleNewInstPost() {
@@ -96,7 +94,6 @@ class ChangeInstForm extends Component {
   }
 
   render() {
-    let PickerItem = PickerIOS.Item;
     return (
       <View>
         <Modal
@@ -136,24 +133,24 @@ class ChangeInstForm extends Component {
                 />
               </View>
 
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Select Country:</Text>
-                <PickerIOS
-                  selectedValue={this.state.country}
-                  itemStyle={{fontSize: 16}}
-                  onValueChange={country => this.setState({ country })}>
-                  { this.countryList.map((country, index) =>
-                    <PickerItem
-                      key={index}
-                      value={country.value}
-                      label={country.label}
-                    />)}
-                </PickerIOS>
+              <View>
+                <ModalSelect
+                  options={this.countryList}
+                  handleSelect={this.handleCountrySelect}
+                  btnContent={{ type: 'text', name: this.state.countryName || 'Select Country' }}
+                  style={[styles.selectContainer, {color: this.state.countryName ? 'black' : '#004E89', fontWeight: this.state.countryName ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Select Province:</Text>
-                { this.renderProvinceSelect() }
+              <View>
+                <ModalSelect
+                  options={this.state.countryVal ? this.provinceList[this.state.countryVal] : this.disabledOptions}
+                  handleSelect={this.handleProvinceSelect}
+                  btnContent={{ type: 'text', name: this.state.provinceName || 'Select Province / State' }}
+                  style={[styles.selectContainer, {color: this.state.provinceName ? 'black' : '#004E89', fontWeight: this.state.provinceName ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
               <View style={styles.dividedRow}>
@@ -224,5 +221,16 @@ const styles = StyleSheet.create({
   primaryBtn: {
     color: 'white',
     textAlign: 'center'
+  },
+  selectContainer: {
+    marginBottom: 10,
+    borderWidth: .5,
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });

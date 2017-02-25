@@ -5,7 +5,6 @@ import {
   Text,
   View,
   ScrollView,
-  Picker,
   TextInput
 } from 'react-native';
 
@@ -17,22 +16,22 @@ import DistanceModal from '../Partials/ModalSelect.js';
 class JobSearchForm extends Component {
   constructor(props) {
     super(props);
-    this.userId = this.props.userId || 1;
     this.preferenceTags = ['aerospace', 'automation', 'automotive', 'design', 'electrical', 'energy', 'engineer', 'instrumentation', 'manufacturing', 'mechanical', 'military', 'mining', 'naval', 'programming', 'project-management', 'QA/QC', 'R&D', 'robotics', 'software'];
     this.distanceOptions = [
-      { value: 10, label: "10km" },
-      { value: 20, label: "20km" },
-      { value: 30, label: "30km" },
-      { value: 50, label: "50km" },
-      { value: 100, label: "100km" },
-      { value: 9000, label: "All" }
+      { value: 10, label: "Within 10km" },
+      { value: 20, label: "Within 20km" },
+      { value: 30, label: "Within 30km" },
+      { value: 50, label: "Within 50km" },
+      { value: 100, label: "Within 100km" },
+      { value: 9000, label: "Anywhere" }
     ];
     this.state = {
       modalVisible: false,
-      postal_code: '',
-      job_distance: '',
-      job_kind: [],
-      job_query: [],
+      postalCode: '',
+      jobDistance: '',
+      jobDistanceDisplayName: '',
+      jobKind: [],
+      jobQuery: [],
       tagFilterPhrase: ''
     };
     this.conditionData = this.conditionData.bind(this);
@@ -43,47 +42,48 @@ class JobSearchForm extends Component {
     this.moveUpTag = this.moveUpTag.bind(this);
     this.moveDownTag = this.moveDownTag.bind(this);
     this.filterPreferenceTags = this.filterPreferenceTags.bind(this);
-    this.updateSearch = this.updateSearch.bind(this);
+    this.handleUpdateSearch = this.handleUpdateSearch.bind(this);
   }
 
   componentDidMount() {
-    fetch(`http://127.0.0.1:19001/api/users/${this.userId}`)
+    fetch('http://127.0.0.1:19001/api/users/currentuser')
     .then(response => response.json())
     .then(resJSON => resJSON ? this.conditionData(resJSON) : console.log("server error, jobsSearchForm.js - 0", resJSON))
     .catch(err => console.log("Error here jobsSearchForm.js: ", err));
   }
 
   conditionData(resJSON) {
-    let job_query = resJSON.userInfo.job_query;
-    let job_kind = resJSON.userInfo.job_kind;
+    let jobQuery = resJSON.userInfo.job_query;
+    let jobKind = resJSON.userInfo.job_kind;
 
-    job_kind = job_kind ? job_kind.split(' ') : [];
+    jobKind = jobKind ? jobKind.split(' ') : [];
 
-    if (job_query) {
-      job_query = job_query.split(' ');
-      job_query.forEach(query => {
+    if (jobQuery) {
+      jobQuery = jobQuery.split(' ');
+      jobQuery.forEach(query => {
         if (this.preferenceTags.includes(query)) {
           let index = this.preferenceTags.indexOf(query);
           this.preferenceTags.splice(index, 1);
         }
       });
     } else {
-      job_query = [];
+      jobQuery = [];
     }
 
     this.setState({
-      postal_code: resJSON.userInfo.postal_code ? resJSON.userInfo.postal_code.toUpperCase() : '',
-      job_distance: resJSON.userInfo.job_distance ? resJSON.userInfo.job_distance : '',
-      job_kind: job_kind,
-      job_query: job_query
+      postalCode: resJSON.userInfo.postal_code ? resJSON.userInfo.postal_code.toUpperCase() : '',
+      jobDistance: resJSON.userInfo.job_distance ? resJSON.userInfo.job_distance : '',
+      jobKind,
+      jobQuery,
+      jobDistanceDisplayName: this.determineDistanceText(resJSON.userInfo.job_distance)
     });
   }
 
-  determineDistanceText() {
-    if (this.state.job_distance) {
-      return (this.state.job_distance === 9000) ? "All" : `${this.state.job_distance} km`;
+  determineDistanceText(distance) {
+    if (distance) {
+      return (distance >= 1000) ? "Anywhere" : `Within ${distance} km`;
     } else {
-      return "select search area";
+      return '';
     }
   }
 
@@ -91,37 +91,37 @@ class JobSearchForm extends Component {
     this.setState({modalVisible: visible});
   }
 
-  handleDistanceSelect(job_distance) {
-    this.setState({ job_distance });
+  handleDistanceSelect(jobDistance, jobDistanceDisplayName) {
+    this.setState({ jobDistance, jobDistanceDisplayName });
   }
 
   handleJobKind(value) {
-    let job_kind = this.state.job_kind;
-    if (this.state.job_kind.includes(value)) {
-      let index = job_kind.indexOf(value);
-      job_kind.splice(index, 1);
+    let jobKind = this.state.jobKind;
+    if (this.state.jobKind.includes(value)) {
+      let index = jobKind.indexOf(value);
+      jobKind.splice(index, 1);
     } else {
-      job_kind.push(value);
+      jobKind.push(value);
     }
-    this.setState({ job_kind });
+    this.setState({ jobKind });
   }
 
   moveUpTag(selectedTag) {
-    let job_query = this.state.job_query;
-    job_query.push(selectedTag);
+    let jobQuery = this.state.jobQuery;
+    jobQuery.push(selectedTag);
     let index = this.preferenceTags.findIndex(tag => tag === selectedTag);
     this.preferenceTags.splice(index, 1);
     let tagFilterPhrase = '';
-    this.setState({ job_query, tagFilterPhrase });
+    this.setState({ jobQuery, tagFilterPhrase });
   }
 
   moveDownTag(selectedTag) {
-    let job_query = this.state.job_query;
-    let index = job_query.find(tag => tag === selectedTag);
-    job_query.splice(index, 1);
+    let jobQuery = this.state.jobQuery;
+    let index = jobQuery.find(tag => tag === selectedTag);
+    jobQuery.splice(index, 1);
     this.preferenceTags.push(selectedTag);
     this.preferenceTags.sort((a,b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
-    this.setState({ job_query });
+    this.setState({ jobQuery });
   }
 
   filterPreferenceTags() {
@@ -134,13 +134,13 @@ class JobSearchForm extends Component {
       <Text style={{padding: 5}}>No matching tags found...</Text>;
   }
 
-  updateSearch() {
+  handleUpdateSearch() {
     let data = {
       type: "job",
-      postal_code: this.state.postal_code,
-      job_distance: parseInt(this.state.job_distance),
-      job_kind: this.state.job_kind.join(' '),
-      job_query: this.state.job_query.join(' ')
+      postal_code: this.state.postalCode,
+      job_distance: parseInt(this.state.jobDistance),
+      job_kind: this.state.jobKind.join(' '),
+      job_query: this.state.jobQuery.join(' ')
     };
     fetch(`http://127.0.0.1:19001/api/users/${this.state.user_id}`, {
       method: 'POST',
@@ -172,25 +172,27 @@ class JobSearchForm extends Component {
             <View style={styles.bodyContainer}>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Postal Code:</Text>
-                <TextInput
-                  style={styles.textInput}
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  onChangeText={postal_code => this.setState({postal_code})}
-                  value={this.state.postal_code}
-                  placeholder="Example: A1A1B1"
-                />
-              </View>
-
-              <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Search Area:</Text>
-                <Picker
-                  selectedValue={this.state.job_distance}
-                  onValueChange={job_distance => this.setState({job_distance})}
-                  itemStyle={{fontSize: 16}}>
-                  { this.distanceOptions.map((dist, index) => <Picker.Item key={index} label={dist.label} value={dist.value} />) }
-                </Picker>
+                <View style={styles.dividedRow}>
+                  <View style={{flex: 3, marginRight: 5}}>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={postalCode => this.setState({postalCode})}
+                      value={this.state.postalCode}
+                      placeholder="Postal Code: e.g. A1A1B1"
+                      underlineColorAndroid="rgba(0,0,0,0)"
+                    />
+                  </View>
+                  <View style={{flex: 2, marginLeft: 5}}>
+                    <DistanceModal
+                      options={this.distanceOptions}
+                      handleSelect={this.handleDistanceSelect}
+                      btnContent={{ type: 'text', name: this.state.jobDistanceDisplayName || 'Search Range' }}
+                      style={styles.selectContainer}
+                    />
+                    <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
+                  </View>
+                </View>
               </View>
 
               <View style={styles.inputContainer}>
@@ -200,13 +202,13 @@ class JobSearchForm extends Component {
                     <CheckBox
                       style={styles.checkbox}
                       onClick={() => this.handleJobKind("summer")}
-                      isChecked={ this.state.job_kind.includes("summer") }
+                      isChecked={ this.state.jobKind.includes("summer") }
                       leftText="Part Time"
                     />
                     <CheckBox
                       style={styles.checkbox}
                       onClick={() => this.handleJobKind("junior")}
-                      isChecked={ this.state.job_kind.includes("junior") }
+                      isChecked={ this.state.jobKind.includes("junior") }
                       leftText="Junior"
                     />
                   </View>
@@ -214,13 +216,13 @@ class JobSearchForm extends Component {
                     <CheckBox
                       style={styles.checkbox}
                       onClick={() => this.handleJobKind("internship")}
-                      isChecked={ this.state.job_kind.includes("internship") }
+                      isChecked={ this.state.jobKind.includes("internship") }
                       leftText="Intern/Coop"
                     />
                     <CheckBox
                       style={styles.checkbox}
                       onClick={() => this.handleJobKind("senior")}
-                      isChecked={ this.state.job_kind.includes("senior") }
+                      isChecked={ this.state.jobKind.includes("senior") }
                       leftText="Senior"
                     />
                   </View>
@@ -230,12 +232,12 @@ class JobSearchForm extends Component {
               <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>My Preferenence Tages:</Text>
                 <View style={[styles.tagsContainer, {borderBottomWidth: 1, borderColor: '#004E89'}]}>
-                  { this.state.job_query.map((tag, index) =>
+                  { this.state.jobQuery.map((tag, index) =>
                     <View key={index} style={styles.tagContainer}>
                       <Text style={styles.tagText} onPress={() => this.moveDownTag(tag)}>{tag}</Text>
                     </View>
                   )}
-                  { !this.state.job_query[0] && <Text style={{padding: 5}}>Select tags from the list below...</Text> }
+                  { !this.state.jobQuery[0] && <Text style={{padding: 5}}>Select tags from the list below...</Text> }
                 </View>
                 <TextInput
                   style={styles.searchInput}
@@ -251,7 +253,7 @@ class JobSearchForm extends Component {
 
               <View style={styles.dividedRow}>
                 <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
-                  <Text style={styles.primaryBtn} onPress={this.updateSearch}>
+                  <Text style={styles.primaryBtn} onPress={this.handleUpdateSearch}>
                     Update
                   </Text>
                 </View>
@@ -361,5 +363,13 @@ const styles = StyleSheet.create({
   primaryBtn: {
     color: 'white',
     textAlign: 'center'
+  },
+  selectContainer: {
+    marginBottom: 5,
+    borderWidth: .5,
+    borderRadius: 5,
+    padding: 4.5,
+    borderColor: '#aaa',
+    alignItems: 'center'
   }
 });
