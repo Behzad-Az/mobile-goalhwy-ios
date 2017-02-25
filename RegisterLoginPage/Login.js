@@ -29,8 +29,10 @@ class LoginPage extends React.Component {
   }
 
   handleLogin() {
-    let data = { ...this.state };
-    delete data.pageMsg;
+    let data = {
+      username: this.state.username,
+      password: this.state.password
+    };
     fetch('http://127.0.0.1:19001/api/login', {
       method: 'POST',
       headers: {

@@ -27,7 +27,7 @@ class RevisionRow extends React.Component {
   }
 
   loadComponentData() {
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.userId}`)
+    fetch('http://127.0.0.1:19001/api/users/currentuser')
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {
@@ -39,7 +39,6 @@ class RevisionRow extends React.Component {
   conditionData(resJSON) {
     if (resJSON) {
       let userInfo = {
-        userId: resJSON.userInfo.id,
         instId: resJSON.userInfo.inst_id,
         progId: resJSON.userInfo.prog_id,
         username: resJSON.userInfo.username,

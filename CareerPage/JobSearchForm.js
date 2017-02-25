@@ -142,7 +142,7 @@ class JobSearchForm extends Component {
       job_kind: this.state.jobKind.join(' '),
       job_query: this.state.jobQuery.join(' ')
     };
-    fetch(`http://127.0.0.1:19001/api/users/${this.state.user_id}`, {
+    fetch('http://127.0.0.1:19001/api/users/currentuser', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

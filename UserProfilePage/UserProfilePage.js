@@ -16,7 +16,7 @@ class UserProfilePage extends React.Component {
     return (
       <ScrollView>
         <View style={{marginTop: 89, minHeight: Dimensions.get('window').height - 89, backgroundColor: '#ddd', paddingTop: 5 }}>
-          <ProfileCard userId={this.props.userId} />
+          <ProfileCard />
         </View>
       </ScrollView>
     );

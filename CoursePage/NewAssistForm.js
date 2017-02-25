@@ -103,7 +103,7 @@ class NewAssistForm extends Component {
 
   handleNewRequestAssist() {
     let data = { issue_desc: this.state.issueDesc };
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog`, {
+    fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}/tutorlog`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -124,7 +124,7 @@ class NewAssistForm extends Component {
       closure_reason: this.state.closureReason
     };
     let newState = this.state.closureReason ? { assistReqOpen: false, issueDesc: '' } : { assistReqOpen: true };
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutorlog/update`, {
+    fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}/tutorlog/update`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

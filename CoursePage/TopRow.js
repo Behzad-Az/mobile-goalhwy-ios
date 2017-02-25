@@ -32,7 +32,7 @@ class TopRow extends React.Component {
   }
 
   handleUnsubscribe() {
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}`, {
+    fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}`, {
       method: 'DELETE'
     })
     .then(response => response.json())
@@ -42,7 +42,7 @@ class TopRow extends React.Component {
   }
 
   handleSubscribe() {
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}`, {
+    fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}`, {
         method: 'POST',
         body: JSON.stringify({ course_id: this.props.courseInfo.id })
     })
@@ -53,7 +53,7 @@ class TopRow extends React.Component {
 
   handleTutorStatus() {
     let tutor_status = !this.state.tutor_status;
-    fetch(`http://127.0.0.1:19001/api/users/${this.props.courseInfo.user_id}/courses/${this.props.courseInfo.id}/tutor`, {
+    fetch(`http://127.0.0.1:19001/api/users/currentuser/courses/${this.props.courseInfo.id}/tutor`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
