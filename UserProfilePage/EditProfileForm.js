@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import FormNavBar from '../Navbar/FormNavBar.js';
 import ModalSelect from '../Partials/ModalSelect.js';
 import SelectInstModal from '../RegisterLoginPage/SelectInst.js';
 
@@ -28,7 +29,7 @@ class EditProfileForm extends Component {
       instDisplayName: this.props.userInfo.instDisplayName,
       progId: this.props.userInfo.progId,
       progDisplayName: this.props.userInfo.progDisplayName,
-      userYear: this.props.userInfo.user_year,
+      userYear: this.props.userInfo.userYear,
       instProgDropDownList: [],
       usernameAvaialble: false,
       emailAvaialble: false
@@ -120,7 +121,7 @@ class EditProfileForm extends Component {
                       this.state.instProgDropDownList.find(item => item.value === this.state.instId).programs :
                       [];
     return (
-      <View style={{position: 'absolute', top: 10, right: 10}}>
+      <View>
         <Modal
           animationType={"slide"}
           transparent={false}
@@ -128,72 +129,78 @@ class EditProfileForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>New User:</Text>
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Username:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={username => this.setState({username})}
-                value={this.state.username}
-                placeholder="Enter username"
-                underlineColorAndroid="rgba(0,0,0,0)"
-              />
-            </View>
+            <FormNavBar formTitle="Edit Profile:" backFcn={this.setModalVisible} />
 
-            <View style={styles.inputCotainer}>
-              <Text style={styles.inputLabel}>Email:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={email => this.setState({email})}
-                value={this.state.email}
-                placeholder="Enter email"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                keyboardType="email-address"
-              />
-            </View>
+            <View style={styles.bodyContainer}>
 
-            <View>
-              <SelectInstModal
-                instList={this.state.instProgDropDownList}
-                selectInst={this.selectInst}
-                btnContent={this.state.instDisplayName || 'Primary Institution:'}
-                style={[styles.selectContainer, {color: this.state.instDisplayName ? 'black' : '#004E89', fontWeight: this.state.instDisplayName ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View>
-              <ModalSelect
-                options={programList}
-                handleSelect={this.selectProgram}
-                btnContent={{ type: 'text', name: this.state.progDisplayName || 'Primary Program:' }}
-                style={[styles.selectContainer, {color: this.state.progDisplayName ? 'black' : '#004E89', fontWeight: this.state.progDisplayName ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View>
-              <ModalSelect
-                options={this.userYearOptions}
-                handleSelect={this.selectUserYear}
-                btnContent={{ type: 'text', name: this.state.userYear || 'Academic Year:' }}
-                style={[styles.selectContainer, {color: this.state.userYear ? 'black' : '#004E89', fontWeight: this.state.userYear ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.updateProfile}>
-                  Update
-                </Text>
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Username:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={username => this.setState({username})}
+                  value={this.state.username}
+                  placeholder="Enter username"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                />
               </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
-                </Text>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Email:</Text>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={email => this.setState({email})}
+                  value={this.state.email}
+                  placeholder="Enter email"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                  keyboardType="email-address"
+                />
               </View>
+
+              <View>
+                <SelectInstModal
+                  instList={this.state.instProgDropDownList}
+                  selectInst={this.selectInst}
+                  btnContent={this.state.instDisplayName || 'Primary Institution:'}
+                  style={[styles.selectContainer, {color: this.state.instDisplayName ? 'black' : '#004E89', fontWeight: this.state.instDisplayName ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+              </View>
+
+              <View>
+                <ModalSelect
+                  options={programList}
+                  handleSelect={this.selectProgram}
+                  btnContent={{ type: 'text', name: this.state.progDisplayName || 'Primary Program:' }}
+                  style={[styles.selectContainer, {color: this.state.progDisplayName ? 'black' : '#004E89', fontWeight: this.state.progDisplayName ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+              </View>
+
+              <View>
+                <ModalSelect
+                  options={this.userYearOptions}
+                  handleSelect={this.selectUserYear}
+                  btnContent={{ type: 'text', name: this.state.userYear ? `Year ${this.state.userYear}` : 'Academic Year:' }}
+                  style={[styles.selectContainer, {color: this.state.userYear ? 'black' : '#004E89', fontWeight: this.state.userYear ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+              </View>
+
+
+              <View style={styles.dividedRow}>
+                <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={this.updateProfile}>
+                    Update
+                  </Text>
+                </View>
+                <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                    Cancel
+                  </Text>
+                </View>
+              </View>
+
             </View>
 
           </ScrollView>
@@ -210,17 +217,12 @@ export default EditProfileForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25
+  },
+  bodyContainer: {
     padding: 10
   },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
-  },
-  inputCotainer: {
+  inputContainer: {
     marginBottom: 10,
     padding: 5,
     borderWidth: .5,
@@ -230,27 +232,29 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold',
+    paddingTop: 2.5
+  },
+  textInput: {
+    minHeight: 30,
     paddingTop: 2.5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 5
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10
+    justifyContent: 'space-between'
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
   },
   primaryBtn: {
     color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
     textAlign: 'center'
-  },
-  textInput: {
-    paddingRight: 5,
-    paddingLeft: 5
   },
   selectContainer: {
     marginBottom: 10,

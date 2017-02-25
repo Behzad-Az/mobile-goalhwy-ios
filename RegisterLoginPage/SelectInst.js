@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import FormNavBar from '../Navbar/FormNavBar.js';
 
-class ChangeInstForm extends Component {
+class SelectInstForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,29 +48,29 @@ class ChangeInstForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>Select Institution:</Text>
-            <TextInput
-              style={styles.searchInput}
-              onChangeText={filterPhrase => this.setState({ filterPhrase })}
-              placeholder="Search institutions here..." />
 
-            { currInstList.map(inst =>
-              <Text key={inst.value} style={styles.instRowText} onPress={() => this.handleSelect(inst.value, inst.label)}>
-                {inst.label}
-              </Text>
-            )}
+            <FormNavBar formTitle="Select Institution:" backFcn={this.setModalVisible} />
 
-            <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]}>
-                  Select
+            <View style={styles.bodyContainer}>
+              <TextInput
+                style={styles.searchInput}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={filterPhrase => this.setState({ filterPhrase })}
+                placeholder="Search institutions here..." />
+
+              { currInstList.map(inst =>
+                <Text key={inst.value} style={styles.instRowText} onPress={() => this.handleSelect(inst.value, inst.label)}>
+                  {inst.label}
+                </Text>
+              )}
+
+              <View style={styles.primaryBtnContainer}>
+                <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                  Cancel
                 </Text>
               </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
-                </Text>
-              </View>
+
             </View>
 
           </ScrollView>
@@ -84,32 +85,14 @@ class ChangeInstForm extends Component {
   }
 }
 
-export default ChangeInstForm;
+export default SelectInstForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25
+  },
+  bodyContainer: {
     padding: 10
-  },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
-  },
-  dividedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10
-  },
-  primaryBtn: {
-    color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
-    textAlign: 'center'
   },
   instRowText: {
     marginBottom: 5,
@@ -125,6 +108,19 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     borderWidth: .5,
     borderColor: '#aaa',
-    borderRadius: 5
+    borderRadius: 5,
+    minHeight: 30,
+    fontSize: 16
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
+  },
+  primaryBtn: {
+    color: 'white',
+    textAlign: 'center'
   }
 });

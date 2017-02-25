@@ -90,7 +90,13 @@ class RevisionRow extends React.Component {
            <Text>{this.state.userInfo.userYear}</Text>
         </View>
 
-        <EditProfileForm style={styles.editBtn} setMessage={this.setMessage} userInfo={this.state.userInfo} reload={this.loadComponentData} />
+        <View style={[{position: 'absolute', top: 10, right: 10}, styles.editBtnContainer]}>
+          <EditProfileForm
+            style={styles.editBtn}
+            setMessage={this.setMessage}
+            userInfo={this.state.userInfo}
+            reload={this.loadComponentData} />
+        </View>
 
       </View>
     );
@@ -120,13 +126,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: 2
   },
-  editBtn: {
+  editBtnContainer: {
     backgroundColor: '#004E89',
-    color: 'white',
     paddingTop: 3,
     paddingBottom: 3,
     paddingRight: 6,
     paddingLeft: 6,
     borderRadius: 5
+  },
+  editBtn: {
+    color: 'white'
   }
 });
