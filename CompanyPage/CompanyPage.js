@@ -82,7 +82,7 @@ class CompanyPage extends React.Component {
       );
     } else {
       let jobCount = this.state.jobs.length;
-      return <Text style={styles.summaryInfo}>{jobCount} open positions...</Text>
+      return <View style={styles.summaryInfo}><Text>{jobCount} open positions...</Text></View>
     }
   }
 
@@ -90,17 +90,15 @@ class CompanyPage extends React.Component {
     let qaCount = this.state.questions.length;
     return this.state.showQas ?
       this.state.questions.map((qa, index) => <QaRow key={index} qa={qa} reload={this.loadComponentData} companyId={this.props.companyId} /> ):
-      <Text style={styles.summaryInfo}>{qaCount} interview questions...</Text>
+      <View style={styles.summaryInfo}><Text>{qaCount} interview questions...</Text></View>
   }
 
   renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
-        <View style={styles.componentContainer}>
-          <Text style={{padding: 5, textAlign: 'center'}}>
-            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-          </Text>
-        </View>
+        <Text style={{padding: 5, textAlign: 'center'}}>
+          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+        </Text>
       );
     } else if (this.state.dataLoaded) {
       return (
@@ -131,14 +129,12 @@ class CompanyPage extends React.Component {
       );
     } else {
       return (
-        <View style={styles.componentContainer}>
-          <ActivityIndicator
-            animating={true}
-            style={{height: 80}}
-            size="large"
-            color="#004E89"
-          />
-        </View>
+        <ActivityIndicator
+          animating={true}
+          style={{height: 80}}
+          size="large"
+          color="#004E89"
+        />
       );
     }
   }
@@ -163,19 +159,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  headerBtn: {
-    paddingLeft: 5,
-    paddingRight: 5,
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 19
-  },
-  summaryInfo: {
-    padding: 5,
-    backgroundColor: 'white',
-    borderBottomWidth: .5,
-    borderColor: '#004E89'
-  },
   componentContainer: {
     marginBottom: 10
   },
@@ -185,7 +168,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     position: 'absolute',
     right: 5,
-    top: 5
+    top: 5,
+    backgroundColor: '#004E89'
   },
   headerBtn: {
     paddingLeft: 7,
@@ -201,6 +185,13 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     position: 'absolute',
     top: 5,
-    right: 12
+    right: 12,
+    backgroundColor: '#004E89'
+  },
+  summaryInfo: {
+    padding: 5,
+    backgroundColor: 'white',
+    borderBottomWidth: .5,
+    borderColor: '#004E89'
   }
 });

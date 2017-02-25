@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import FormNavBar from '../Navbar/FormNavBar.js';
 import OutcomeModal from '../Partials/ModalSelect.js';
 
 class NewQuestionForm extends Component {
@@ -71,63 +72,67 @@ class NewQuestionForm extends Component {
           onRequestClose={() => this.setModalVisible(false)}
         >
           <ScrollView style={styles.modalContainer}>
-            <Text style={styles.modalHeader}>New Interview Question / Answer:</Text>
 
-            <View style={[styles.inputCotainer, {minHeight: 100}]}>
-              <Text style={styles.inputLabel}>What question were you asked?</Text>
-              <TextInput
-                style={[styles.textInput, {height: this.state.questionBoxHeight}]}
-                multiline
-                autoCapitalize="sentences"
-                onChangeText={question => this.setState({question})}
-                value={this.state.question}
-                placeholder="Example: What are your strengths?"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                onContentSizeChange={event => {
-                  this.setState({questionBoxHeight: event.nativeEvent.contentSize.height});
-                }}
-              />
-            </View>
+            <FormNavBar formTitle="New Interview Question / Answer:" backFcn={this.setModalVisible} />
 
-            <View style={[styles.inputCotainer, {minHeight: 200}]}>
-              <Text style={styles.inputLabel}>What was your answer? (optional)</Text>
-              <TextInput
-                style={[styles.textInput, {height: this.state.answerBoxHeight}]}
-                multiline
-                autoCapitalize="sentences"
-                onChangeText={answer => this.setState({answer})}
-                value={this.state.answer}
-                placeholder="Summarize your answer here (optional)"
-                underlineColorAndroid="rgba(0,0,0,0)"
-                onContentSizeChange={event => {
-                  this.setState({answerBoxHeight: event.nativeEvent.contentSize.height});
-                }}
-              />
-            </View>
+            <View style={styles.bodyContainer}>
 
-            <View>
-              <OutcomeModal
-                options={this.outcomeOptions}
-                handleSelect={this.handleOutcomeSelect}
-                btnContent={{ type: 'text', name: this.state.outcome || 'What was the outcome? (optional)' }}
-                style={[styles.selectContainer, {color: this.state.outcome ? 'black' : '#004E89', fontWeight: this.state.outcome ? 'normal' : 'bold'}]}
-              />
-              <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15, zIndex: -1}} />
-            </View>
-
-            <View style={styles.dividedRow}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginRight: 5}]} onPress={this.handleNewInterviewQuestion}>
-                  Submit
-                </Text>
+              <View style={[styles.inputContainer, {minHeight: 100}]}>
+                <Text style={styles.inputLabel}>What question were you asked?</Text>
+                <TextInput
+                  style={[styles.textInput, {height: this.state.questionBoxHeight}]}
+                  multiline
+                  autoCapitalize="sentences"
+                  onChangeText={question => this.setState({question})}
+                  value={this.state.question}
+                  placeholder="Example: What are your strengths?"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                  onContentSizeChange={event => {
+                    this.setState({questionBoxHeight: event.nativeEvent.contentSize.height});
+                  }}
+                />
               </View>
-              <View style={{flex: 1}}>
-                <Text style={[styles.primaryBtn, {marginLeft: 5}]} onPress={() => this.setModalVisible(false)}>
-                  Go Back
-                </Text>
-              </View>
-            </View>
 
+              <View style={[styles.inputContainer, {minHeight: 200}]}>
+                <Text style={styles.inputLabel}>What was your answer? (optional)</Text>
+                <TextInput
+                  style={[styles.textInput, {height: this.state.answerBoxHeight}]}
+                  multiline
+                  autoCapitalize="sentences"
+                  onChangeText={answer => this.setState({answer})}
+                  value={this.state.answer}
+                  placeholder="Summarize your answer here (optional)"
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                  onContentSizeChange={event => {
+                    this.setState({answerBoxHeight: event.nativeEvent.contentSize.height});
+                  }}
+                />
+              </View>
+
+              <View>
+                <OutcomeModal
+                  options={this.outcomeOptions}
+                  handleSelect={this.handleOutcomeSelect}
+                  btnContent={{ type: 'text', name: this.state.outcome || 'What was the outcome? (optional)' }}
+                  style={[styles.selectContainer, {color: this.state.outcome ? 'black' : '#004E89', fontWeight: this.state.outcome ? 'normal' : 'bold'}]}
+                />
+                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 7, right: 7, fontSize: 15}} />
+              </View>
+
+              <View style={styles.dividedRow}>
+                <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={this.handleNewInterviewQuestion}>
+                    Submit
+                  </Text>
+                </View>
+                <View style={[styles.primaryBtnContainer, {marginLeft: 5}]}>
+                  <Text style={styles.primaryBtn} onPress={() => this.setModalVisible(false)}>
+                    Cancel
+                  </Text>
+                </View>
+              </View>
+
+            </View>
           </ScrollView>
         </Modal>
 
@@ -142,17 +147,12 @@ export default NewQuestionForm;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    paddingTop: 25,
+  },
+  bodyContainer: {
     padding: 10
   },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
-  },
-  inputCotainer: {
+  inputContainer: {
     marginBottom: 10,
     padding: 5,
     borderWidth: .5,
@@ -162,27 +162,38 @@ const styles = StyleSheet.create({
   inputLabel: {
     color: '#004E89',
     fontWeight: 'bold',
+    paddingTop: 2.5
+  },
+  textInput: {
     paddingTop: 2.5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 5
+    fontSize: 16
   },
   dividedRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10
+    justifyContent: 'space-between'
+  },
+  headerBtnContainer: {
+    padding: 5,
+    marginRight: 5,
+    marginLeft: 5,
+    borderRadius: 5
+  },
+  headerBtn: {
+    textAlign: 'center',
+    fontSize: 19
+  },
+  primaryBtnContainer: {
+    backgroundColor: '#004E89',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: '#004E89',
+    borderWidth: .5,
+    padding: 5
   },
   primaryBtn: {
     color: 'white',
-    backgroundColor: '#004E89',
-    padding: 5,
-    borderRadius: 5,
     textAlign: 'center'
-  },
-  textInput: {
-    paddingRight: 5,
-    paddingLeft: 5
   },
   selectContainer: {
     marginBottom: 10,
