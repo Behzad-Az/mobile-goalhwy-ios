@@ -10,7 +10,6 @@ import {
 
 import { FontAwesome } from '@exponent/vector-icons';
 import ModalSelect from '../Partials/ModalSelect.js';
-
 import SelectInstModal from './SelectInst.js';
 import FormNavBar from '../Navbar/FormNavBar.js';
 
@@ -57,7 +56,6 @@ class NewRegisterForm extends Component {
   conditionData(resJSON) {
     if (resJSON) {
       let instProgDropDownList = resJSON.map(inst => {
-        console.log("i'm here 5: ", inst);
         let value = inst.id;
         let label = inst.inst_display_name;
         let programs = inst.programs.map(prog => {

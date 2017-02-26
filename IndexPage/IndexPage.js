@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -25,7 +24,6 @@ class IndexPage extends React.Component {
       instId: '',
       searchResults: []
     };
-    this.handleSearch = this.handleSearch.bind(this);
     this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
@@ -45,10 +43,6 @@ class IndexPage extends React.Component {
       console.log("Error here: IndexPage.js: ", err);
       this.setState({ dataLoaded: true, pageError: true });
     });
-  }
-
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
   }
 
   renderPageAfterData() {

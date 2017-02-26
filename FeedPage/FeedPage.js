@@ -43,7 +43,6 @@ class FeedPage extends React.Component {
     if (resJSON) {
       resJSON.courseFeeds.forEach(feed => feed.category = this.determineFeedCategory(feed));
       resJSON.dataLoaded = true;
-      console.log("i'm here 3: ", resJSON);
       this.setState(resJSON);
     } else {
       console.log("Error here: FeedPage.js: server error: ", err);

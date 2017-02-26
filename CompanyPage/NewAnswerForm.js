@@ -71,7 +71,6 @@ class NewQuestionForm extends Component {
         >
           <ScrollView style={styles.modalContainer}>
 
-
             <FormNavBar
               formTitle={`${title} - New Answer`}
               backFcn={this.setModalVisible} />
@@ -117,6 +116,7 @@ class NewQuestionForm extends Component {
               </View>
 
             </View>
+
           </ScrollView>
         </Modal>
 

@@ -104,7 +104,7 @@ class NewDocForm extends Component {
                   onChangeText={title => this.setState({title})}
                   value={this.state.title}
                   placeholder="Example: Lab 1 - Electromagnetism"
-                  underlineColorAndroid="#004E89"
+                  underlineColorAndroid="rgba(0,0,0,0)"
                 />
               </View>
 
@@ -140,7 +140,7 @@ class NewDocForm extends Component {
                   onChangeText={rev_desc => this.setState({rev_desc})}
                   value={this.state.rev_desc}
                   placeholder="Example: New Upload"
-                  underlineColorAndroid="#004E89"
+                  underlineColorAndroid="rgba(0,0,0,0)"
                 />
               </View>
 

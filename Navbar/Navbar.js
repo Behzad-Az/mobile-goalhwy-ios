@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -42,11 +41,8 @@ class Navbar extends React.Component {
 
   conditionData(resJSON) {
     if (resJSON) {
-      let newState = {
-        ...resJSON,
-        unViewedNotif: resJSON.notifications.reduce((a, b) => ({ unviewed: a.unviewed || b.unviewed }), { unviewed: false } ).unviewed
-      }
-      this.setState(newState);
+      resJSON.unViewedNotif = resJSON.notifications.reduce((a, b) => ({ unviewed: a.unviewed || b.unviewed }), { unviewed: false } ).unviewed;
+      this.setState(resJSON);
     } else {
       console.log("Error here: Navbar.js: ", err);
       this.setState({ pageError: true });

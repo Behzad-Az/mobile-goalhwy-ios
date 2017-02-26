@@ -115,7 +115,6 @@ class CourseReviewPage extends React.Component {
               />
             </View>
 
-
             { this.state.courseReviews.map((review, index) => <CourseReviewRow key={index} review={review} />) }
           </View>
         </View>

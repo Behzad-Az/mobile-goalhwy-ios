@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
-import { Actions } from 'react-native-router-flux';
 import FormNavBar from '../Navbar/FormNavBar.js';
 
 class ChangeInstForm extends Component {

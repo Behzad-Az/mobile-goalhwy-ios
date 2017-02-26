@@ -121,7 +121,8 @@ class NewCourseForm extends Component {
                   btnContent={{ type: 'text', name: this.state.courseYear ? `Year ${this.state.courseYear}` : 'Select Academic Year' }}
                   style={[styles.selectContainer, {color: this.state.courseYear ? 'black' : '#004E89', fontWeight: this.state.courseYear ? 'normal' : 'bold'}]}
                 />
-                <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
+                <FontAwesome
+                  name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
               <View style={styles.dividedRow}>
@@ -159,14 +160,6 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     padding: 10
-  },
-  modalHeader: {
-    color: '#004E89',
-    fontWeight: 'bold',
-    paddingBottom: 5,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#004E89'
   },
   inputContainer: {
     marginBottom: 10,

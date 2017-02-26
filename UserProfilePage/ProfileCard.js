@@ -1,4 +1,3 @@
-import Exponent from 'exponent';
 import React from 'react';
 import {
   StyleSheet,
@@ -38,7 +37,6 @@ class RevisionRow extends React.Component {
 
   conditionData(resJSON) {
     if (resJSON) {
-      console.log("i'm here 2: ", resJSON);
       let userInfo = {
         instId: resJSON.inst_id,
         progId: resJSON.prog_id,

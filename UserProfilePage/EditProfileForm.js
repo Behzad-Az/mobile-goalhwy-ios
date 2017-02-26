@@ -190,7 +190,6 @@ class EditProfileForm extends Component {
                 <FontAwesome name="chevron-down" style={{position: 'absolute', top: 5, right: 5, fontSize: 15}} />
               </View>
 
-
               <View style={styles.dividedRow}>
                 <View style={[styles.primaryBtnContainer, {marginRight: 5}]}>
                   <Text style={styles.primaryBtn} onPress={this.updateProfile}>

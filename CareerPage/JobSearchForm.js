@@ -53,9 +53,8 @@ class JobSearchForm extends Component {
   }
 
   conditionData(resJSON) {
-    let jobQuery = resJSON.userInfo.job_query;
-    let jobKind = resJSON.userInfo.job_kind;
-
+    let jobQuery = resJSON.job_query;
+    let jobKind = resJSON.job_kind;
     jobKind = jobKind ? jobKind.split(' ') : [];
 
     if (jobQuery) {
@@ -71,11 +70,11 @@ class JobSearchForm extends Component {
     }
 
     this.setState({
-      postalCode: resJSON.userInfo.postal_code ? resJSON.userInfo.postal_code.toUpperCase() : '',
-      jobDistance: resJSON.userInfo.job_distance ? resJSON.userInfo.job_distance : '',
+      postalCode: resJSON.postal_code ? resJSON.postal_code.toUpperCase() : '',
+      jobDistance: resJSON.job_distance ? resJSON.job_distance : '',
       jobKind,
       jobQuery,
-      jobDistanceDisplayName: this.determineDistanceText(resJSON.userInfo.job_distance)
+      jobDistanceDisplayName: this.determineDistanceText(resJSON.job_distance)
     });
   }
 

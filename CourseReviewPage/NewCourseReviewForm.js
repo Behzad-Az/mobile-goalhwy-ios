@@ -180,7 +180,6 @@ class NewCourseReviewForm extends React.Component {
         <FontAwesome name="plus" style={this.props.style} onPress={() => this.setModalVisible(true)} />
 
       </View>
-
     );
   }
 
@@ -238,4 +237,3 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
 });
-
