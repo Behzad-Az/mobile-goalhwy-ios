@@ -136,10 +136,10 @@ class JobSearchForm extends Component {
   handleUpdateSearch() {
     let data = {
       type: "job",
-      postal_code: this.state.postalCode,
-      job_distance: parseInt(this.state.jobDistance),
-      job_kind: this.state.jobKind.join(' '),
-      job_query: this.state.jobQuery.join(' ')
+      postalCode: this.state.postalCode,
+      jobDistance: this.state.jobDistance,
+      jobKind: this.state.jobKind.join(' '),
+      jobQuery: this.state.jobQuery.join(' ')
     };
     fetch('http://127.0.0.1:19001/api/users/currentuser', {
       method: 'POST',

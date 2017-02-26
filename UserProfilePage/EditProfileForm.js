@@ -107,7 +107,7 @@ class EditProfileForm extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
     .then(response => response.json())
     .then(resJSON => resJSON ? this.props.reload() : this.props.setMessage("Could not update profile."))

@@ -19,12 +19,10 @@ class CareerPage extends React.Component {
     this.state = {
       dataLoaded: false,
       pageError: false,
-      jobs: [],
-      searchResults: []
+      jobs: []
     };
     this.conditionData = this.conditionData.bind(this);
     this.loadComponentData = this.loadComponentData.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
     this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
@@ -49,13 +47,8 @@ class CareerPage extends React.Component {
       });
       this.setState({ jobs, dataLoaded: true });
     } else {
-      console.log("Error here: CareerPage.js: ", err);
       this.setState({ dataLoaded: true, pageError: true });
     }
-  }
-
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
   }
 
   renderPageAfterData() {
