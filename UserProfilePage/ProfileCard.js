@@ -38,14 +38,15 @@ class RevisionRow extends React.Component {
 
   conditionData(resJSON) {
     if (resJSON) {
+      console.log("i'm here 2: ", resJSON);
       let userInfo = {
-        instId: resJSON.userInfo.inst_id,
-        progId: resJSON.userInfo.prog_id,
-        username: resJSON.userInfo.username,
-        email: resJSON.userInfo.email,
-        userYear: resJSON.userInfo.user_year,
-        instDisplayName: resJSON.userInfo.inst_short_name ? resJSON.userInfo.inst_long_name + ` (${resJSON.userInfo.inst_short_name})` : resJSON.userInfo.inst_long_name,
-        progDisplayName: resJSON.userInfo.prog_short_name ? resJSON.userInfo.prog_long_name + ` (${resJSON.userInfo.prog_short_name})` : resJSON.userInfo.prog_long_name
+        instId: resJSON.inst_id,
+        progId: resJSON.prog_id,
+        username: resJSON.username,
+        email: resJSON.email,
+        userYear: resJSON.user_year,
+        instDisplayName: resJSON.inst_display_name,
+        progDisplayName: resJSON.prog_display_name
       };
       this.setState({ dataLoaded: true, userInfo, pageMsg: '' });
     } else {

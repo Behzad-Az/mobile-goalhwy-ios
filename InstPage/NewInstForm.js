@@ -88,7 +88,7 @@ class ChangeInstForm extends Component {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(resJSON => resJSON ? this.props.reload() : console.log("Error in server, NewInstForm.js: ", resJSON))
+    .then(resJSON => resJSON ? this.props.reload(this.props.instId) : console.log("Error in server, NewInstForm.js: ", resJSON))
     .catch(err => console.log("Error here in NewInstForm.js: ", err));
     this.setModalVisible(false);
   }
@@ -124,7 +124,7 @@ class ChangeInstForm extends Component {
                 <Text style={styles.inputLabel}>Institution Given Name (optional):</Text>
                 <TextInput
                   style={styles.textInput}
-                  autoCapitalize="words"
+                  autoCapitalize="characters"
                   autoCorrect={false}
                   onChangeText={instShortName => this.setState({instShortName})}
                   value={this.state.instShortName}

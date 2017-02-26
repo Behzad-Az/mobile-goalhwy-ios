@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { FontAwesome } from '@exponent/vector-icons';
+import { Actions } from 'react-native-router-flux';
 import FormNavBar from '../Navbar/FormNavBar.js';
 
 class ChangeInstForm extends Component {
@@ -29,7 +30,7 @@ class ChangeInstForm extends Component {
 
   filterInstList() {
     let phrase = new RegExp(this.state.filterPhrase.toLowerCase());
-    return this.props.instList.filter(inst => inst.displayName.toLowerCase().match(phrase));
+    return this.props.instList.filter(inst => inst.inst_display_name.toLowerCase().match(phrase));
   }
 
   handleInstSelect(instId) {
@@ -61,7 +62,7 @@ class ChangeInstForm extends Component {
 
               { currInstList.map(inst =>
                 <Text key={inst.id} style={styles.instRowText} onPress={() => this.handleInstSelect(inst.id)}>
-                  {inst.displayName}
+                  {inst.inst_display_name}
                 </Text>
               )}
 

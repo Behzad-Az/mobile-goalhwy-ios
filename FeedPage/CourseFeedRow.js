@@ -35,7 +35,7 @@ class CourseFeedRow extends React.Component {
           </View>
 
           <View style={{flex: 6, padding: 5}}>
-            <Text style={styles.headerText}>{this.props.feed.prefix} {this.props.feed.suffix}</Text>
+            <Text style={styles.headerText}>{this.props.feed.short_display_name}</Text>
             <Text style={styles.posterText}>By {this.props.feed.commenter_name}</Text>
             <Text>{this.props.feed.content}</Text>
           </View>

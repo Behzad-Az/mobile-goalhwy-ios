@@ -17,7 +17,7 @@ class IndexRow extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.courseTitle} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
-          {this.props.course.prefix} {this.props.course.suffix}
+          {this.props.course.short_display_name}
         </Text>
       </View>
     );

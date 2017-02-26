@@ -59,10 +59,10 @@ class EditProfileForm extends Component {
     if (resJSON) {
       let instProgDropDownList = resJSON.map(inst => {
         let value = inst.id;
-        let label = inst.inst_short_name ? inst.inst_long_name + ` (${inst.inst_short_name})` : inst.inst_long_name;
-        let programs = inst.programs.map(program => {
-          let value = program.prog_id;
-          let label = program.prog_short_name ? program.prog_long_name + ` (${program.prog_short_name})` : program.prog_long_name;
+        let label = inst.inst_display_name;
+        let programs = inst.programs.map(prog => {
+          let value = prog.prog_id;
+          let label = prog.prog_display_name;
           return { value, label };
         });
         return {value, label, programs};

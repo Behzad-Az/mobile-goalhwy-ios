@@ -53,7 +53,7 @@ class InstPage extends React.Component {
     return (
       <View style={styles.dividedRow}>
         <Text style={{flex: 9}} onPress={() => Actions.CoursePage({ courseId: this.props.course.id })}>
-          {this.props.course.displayName}
+          {this.props.course.full_display_name}
         </Text>
         <FontAwesome
           name="check-circle"

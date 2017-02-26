@@ -145,7 +145,7 @@ class CoursePage extends React.Component {
         <View>
           <View style={styles.componentContainer}>
             <Text style={styles.header}>
-              {this.state.courseInfo.prefix} {this.state.courseInfo.suffix}
+              {this.state.courseInfo.short_display_name}
             </Text>
             <TopRow courseInfo={this.state.courseInfo} />
           </View>

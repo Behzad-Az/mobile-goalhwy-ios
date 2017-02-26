@@ -241,7 +241,7 @@ class JobSearchForm extends Component {
                 </View>
                 <TextInput
                   style={styles.searchInput}
-                  onChangeText={tagFilterPhrase => this.setState({tagFilterPhrase})}
+                  onChangeText={tagFilterPhrase => this.setState({tagFilterPhrase: tagFilterPhrase.trim().toLowerCase()})}
                   value={this.state.tagFilterPhrase}
                   placeholder="search for tags"
                   underlineColorAndroid="rgba(0,0,0,0)"
