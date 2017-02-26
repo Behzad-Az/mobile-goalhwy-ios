@@ -86,11 +86,9 @@ class InstPage extends React.Component {
   renderPageAfterData() {
     if (this.state.dataLoaded && this.state.pageError) {
       return (
-        <View style={styles.componentContainer}>
-          <Text style={{padding: 5, textAlign: 'center'}}>
-            <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
-          </Text>
-        </View>
+        <Text style={{padding: 5, textAlign: 'center'}}>
+          <FontAwesome name="exclamation-triangle" size={19}/> Error in loading up the page.
+        </Text>
       );
     } else if (this.state.dataLoaded) {
       let slicedArr = this.handleFilter();
@@ -98,8 +96,13 @@ class InstPage extends React.Component {
         <View style={styles.componentContainer}>
           <Text style={styles.header}>{this.findInstName()}</Text>
           <View style={styles.headerBtnContainer}>
-            <ChangeInstForm instList={this.state.instList} reload={this.loadComponentData} style={styles.headerBtn} />
-            <NewInstForm instId={this.state.instId} reload={this.loadComponentData} style={styles.headerBtn} />
+            <ChangeInstForm
+              instList={this.state.instList}
+              reload={this.loadComponentData}
+              style={styles.headerBtn} />
+            <NewInstForm
+              reload={() => this.loadComponentData(this.state.instId)}
+              style={styles.headerBtn} />
           </View>
           <TextInput
             style={styles.textInput}
@@ -109,19 +112,17 @@ class InstPage extends React.Component {
             placeholder="Search courses here..."
           />
           { slicedArr.map(course => <CourseRow key={course.id} course={course} currUserCourseIds={this.state.currUserCourseIds} />) }
-          { !slicedArr[0] && <NewCourseForm instId={this.state.instId} reload={this.loadComponentData} /> }
+          { !slicedArr[0] && <NewCourseForm instId={this.state.instId} reload={() => this.loadComponentData(this.state.instId)} /> }
         </View>
       );
     } else {
       return (
-        <View style={styles.componentContainer}>
-          <ActivityIndicator
-            animating={true}
-            style={{height: 80}}
-            size="large"
-            color="#004E89"
-          />
-        </View>
+        <ActivityIndicator
+          animating={true}
+          style={{height: 80}}
+          size="large"
+          color="#004E89"
+        />
       );
     }
   }

@@ -21,8 +21,7 @@ class IndexPage extends React.Component {
       pageError: false,
       courses: [],
       updates: '',
-      instId: '',
-      searchResults: []
+      instId: ''
     };
     this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
