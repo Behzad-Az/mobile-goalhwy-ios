@@ -25,7 +25,7 @@ class NewCourseReviewForm extends React.Component {
     this.state = {
       modalVisible: false,
       startDate: '',
-      workLoadRating: '',
+      workloadRating: '',
       fairnessRating: '',
       profRating: '',
       overallRating: '',
@@ -56,14 +56,14 @@ class NewCourseReviewForm extends React.Component {
   handleNewReview() {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     let data = {
-      start_year: this.state.startDate.getYear() - 100 + 2000,
-      start_month: months[this.state.startDate.getMonth()],
-      workload_rating: this.state.workLoadRating,
-      fairness_rating: this.state.fairnessRating,
-      prof_rating: this.state.profRating,
-      overall_rating: this.state.overallRating,
-      review_desc: this.state.reviewDesc,
-      prof_name: this.state.profName,
+      startYear: this.state.startDate.getYear() - 100 + 2000,
+      startMonth: months[this.state.startDate.getMonth()],
+      workloadRating: this.state.workloadRating,
+      fairnessRating: this.state.fairnessRating,
+      profRating: this.state.profRating,
+      overallRating: this.state.overallRating,
+      reviewDesc: this.state.reviewDesc,
+      profName: this.state.profName
     };
     fetch(`http://127.0.0.1:19001/api/courses/${this.props.courseId}/reviews`, {
       method: 'POST',
@@ -107,7 +107,7 @@ class NewCourseReviewForm extends React.Component {
 
               <View style={styles.inputContainer}>
                 <Text style={[styles.inputLabel, {paddingBottom: 5}]}>How was the workload?</Text>
-                <RadioInput handleRadioChange={this.handleRadioChange} type="workLoadRating" options={this.workLoadOptions} horizontal />
+                <RadioInput handleRadioChange={this.handleRadioChange} type="workloadRating" options={this.workLoadOptions} horizontal />
               </View>
 
               <View style={styles.inputContainer}>

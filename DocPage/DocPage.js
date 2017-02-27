@@ -22,7 +22,7 @@ class DocPage extends React.Component {
       courseInfo: {
         id: this.props.courseId
       },
-      doc: {
+      docInfo: {
         id: this.props.docId,
         revisions: []
       },
@@ -34,10 +34,12 @@ class DocPage extends React.Component {
   }
 
   componentDidMount() {
-    this.loadComponentData(this.state.courseInfo.id, this.state.doc.id);
+    this.loadComponentData(this.state.courseInfo.id, this.state.docInfo.id);
   }
 
   loadComponentData(courseId, docId) {
+    courseId = courseId || this.state.courseInfo.id;
+    docId = docId || this.state.docInfo.id;
     fetch(`http://127.0.0.1:19001/api/courses/${courseId}/docs/${docId}`)
     .then(response => response.json())
     .then(resJSON => {
@@ -70,13 +72,13 @@ class DocPage extends React.Component {
       return (
         <View>
           <View style={styles.componentContainer}>
-            <Text style={styles.header}>{this.state.doc.title}</Text>
+            <Text style={styles.header}>{this.state.docInfo.title}</Text>
             <TopRow courseInfo={this.state.courseInfo} />
           </View>
           <View style={styles.componentContainer}>
             <Text style={styles.header}>Revisions:</Text>
-            { this.state.doc.revisions.map((rev, index) => <RevisionRow key={index} rev={rev} />) }
-            { !this.state.doc.revisions[0] && <Text style={{padding: 5}}>No revision could be found...</Text> }
+            { this.state.docInfo.revisions.map(rev => <RevisionRow key={rev.id} rev={rev} />) }
+            { !this.state.docInfo.revisions[0] && <Text style={{padding: 5}}>No revision could be found...</Text> }
           </View>
         </View>
       );

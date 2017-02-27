@@ -66,20 +66,24 @@ class NewDocForm extends Component {
   }
 
   handleNewDocPost() {
+    // const successFcn = () => {
+    //   this.reactAlert.showAlert("New document saved", "info");
+    //   this.props.reload();
+    // };
+    // let data = {
+    //   title: this.state.title,
+    //   type: this.state.type,
+    //   revDesc: this.state.revDesc,
+    //   filePath: this.state.filePath
+    // };
     // $.ajax({
     //   method: 'POST',
     //   url: `/api/courses/${this.props.courseId}`,
     //   data: this.state,
     //   success: response => {
-    //     if (response) {
-    //       this.reactAlert.showAlert("New document saved", "info");
-    //       HandleModal('new-doc-form');
-    //       this.props.reload(this.props.courseId);
-    //     } else {
-    //       this.reactAlert.showAlert("error in uploading document", "error");
-    //     }
+    //     response ? successFcn() : this.reactAlert.showAlert("error in uploading document", "error");
     //   }
-    // });
+    // }).always(() => HandleModal('new-doc-form'));
   }
 
   render() {

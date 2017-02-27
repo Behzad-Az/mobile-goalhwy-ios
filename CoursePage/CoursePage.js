@@ -30,8 +30,7 @@ class CoursePage extends React.Component {
       showAsgReports: false,
       showSampleQuestions: false,
       showLectureNotes: false,
-      showItemsForSale: false,
-      searchResults: []
+      showItemsForSale: false
     };
     this.conditionData = this.conditionData.bind(this);
     this.loadComponentData = this.loadComponentData.bind(this);
@@ -47,8 +46,15 @@ class CoursePage extends React.Component {
     this.loadComponentData(this.state.courseInfo.id);
   }
 
-  loadComponentData(course_id) {
-    fetch(`http://127.0.0.1:19001/api/courses/${course_id}`)
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.courseId !== this.state.courseInfo.id) {
+      this.loadComponentData(nextProps.courseId);
+    }
+  }
+
+  loadComponentData(courseId) {
+    courseId = courseId || this.state.courseInfo.id;
+    fetch(`http://127.0.0.1:19001/api/courses/${courseId}`)
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {
@@ -74,10 +80,6 @@ class CoursePage extends React.Component {
       console.log("Error here: CoursePage.js: ", err);
       this.setState({ dataLoaded: true, pageError: true });
     }
-  }
-
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
   }
 
   renderAsgReports() {

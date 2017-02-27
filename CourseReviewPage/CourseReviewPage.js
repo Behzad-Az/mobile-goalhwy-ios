@@ -31,8 +31,7 @@ class CourseReviewPage extends React.Component {
       courseInfo: {},
       courseReviews: [],
       sortedBy: '',
-      profs: [],
-      searchResults: []
+      profs: []
     };
     this.loadComponentData = this.loadComponentData.bind(this);
     this.sortReviews = this.sortReviews.bind(this);

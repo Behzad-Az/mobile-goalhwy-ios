@@ -24,23 +24,28 @@ class CompanyPage extends React.Component {
       questions: [],
       jobs: [],
       showJobs: false,
-      showQas: false,
-      searchResults: []
+      showQas: false
     };
     this.loadComponentData = this.loadComponentData.bind(this);
     this.conditionData = this.conditionData.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
     this.renderJobs = this.renderJobs.bind(this);
     this.renderQas = this.renderQas.bind(this);
     this.renderPageAfterData = this.renderPageAfterData.bind(this);
   }
 
   componentDidMount() {
-    this.loadComponentData();
+    this.loadComponentData(this.props.companyId);
   }
 
-  loadComponentData() {
-    fetch(`http://127.0.0.1:19001/api/companies/${this.props.companyId}`)
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.companyId !== this.state.companyInfo.id) {
+      this.loadComponentData(nextProps.companyId);
+    }
+  }
+
+  loadComponentData(companyId) {
+    companyId = companyId || this.state.companyInfo.id;
+    fetch(`http://127.0.0.1:19001/api/companies/${companyId}`)
     .then(response => response.json())
     .then(resJSON => this.conditionData(resJSON))
     .catch(err => {
@@ -67,10 +72,6 @@ class CompanyPage extends React.Component {
       console.log("Error here: CompanyPage.js: ", err);
       this.setState({ dataLoaded: true, pageError: true });
     }
-  }
-
-  handleSearch(searchResults) {
-    this.setState({ searchResults });
   }
 
   renderJobs() {

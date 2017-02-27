@@ -39,11 +39,11 @@ class NewQuestionForm extends Component {
   }
 
   handleNewInterviewQuestion() {
-    let data = { ...this.state };
-    delete data.modalVisible;
-    delete data.questionBoxHeight;
-    delete data.answerBoxHeight;
-
+    let data = {
+      question: this.state.question,
+      answer: this.state.answer,
+      outcome: this.state.outcome
+    };
     fetch(`http://127.0.0.1:19001/api/companies/${this.props.companyId}`, {
       method: 'POST',
       headers: {
